@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity android:name=".GenerateListActivity" />
-        <activity android:name=".GeneratePhotoActivity" />
+        <activity android:name=".GeneratePhotoActivity" >
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="ocr" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,10 +23,7 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="ocr"/>
+
     </application>
 
     <uses-feature
