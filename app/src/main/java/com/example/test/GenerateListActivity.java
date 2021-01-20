@@ -1,6 +1,7 @@
 package com.example.test;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class GenerateListActivity extends AppCompatActivity {
     private ArrayList<Item> mList;
     private RecyclerView mRecyclerView;
-    private Adapter mAdapter;
+    private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText editTextInsert;
     private EditText editTextRemove;
@@ -43,10 +44,10 @@ public class GenerateListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new Adapter(mList);
+        mAdapter = new MyRecyclerViewAdapter(mList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 changeItem(position, "Clicked");
@@ -56,5 +57,10 @@ public class GenerateListActivity extends AppCompatActivity {
                 removeItem(position);
             }
         });
+
+        ItemTouchHelper.Callback callback =
+                new ItemMoveCallback(mAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(mRecyclerView);
     }
 }
