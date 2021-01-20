@@ -1,4 +1,4 @@
-package com.example.test;
+/*package com.example.test;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,4 +90,4 @@ public class GeneratePhotoActivity extends AppCompatActivity {
             }
         });
     }
-}
+}*/
