@@ -12,8 +12,6 @@ public class GenerateListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Button buttonInsert;
-    private Button buttonRemove;
     private EditText editTextInsert;
     private EditText editTextRemove;
     @Override
@@ -21,7 +19,6 @@ public class GenerateListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_list);
         createList();
-        setButtons();
         buildRecyclerView();
     }
     public void insertItem(int position) {
@@ -56,26 +53,6 @@ public class GenerateListActivity extends AppCompatActivity {
             }
             @Override
             public void onDeleteClick(int position) {
-                removeItem(position);
-            }
-        });
-    }
-    public void setButtons() {
-        buttonInsert = findViewById(R.id.button_insert);
-        buttonRemove = findViewById(R.id.button_remove);
-        editTextInsert = findViewById(R.id.edittext_insert);
-        editTextRemove = findViewById(R.id.edittext_remove);
-        buttonInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(editTextInsert.getText().toString());
-                insertItem(position);
-            }
-        });
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(editTextRemove.getText().toString());
                 removeItem(position);
             }
         });
