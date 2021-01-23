@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,18 +54,21 @@ public class GeneratePhotoActivity extends AppCompatActivity {
 
         if(requestCode==CAMERA_PIC_REQUEST && resultCode == RESULT_OK){
             //Bitmap image = (Bitmap)data.getExtras().get("data");
-            Bitmap image = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon);
+            Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.supplylistsinglecolumn);
             FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(image);
             FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
             firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                 @Override
                 public void onSuccess(FirebaseVisionText firebaseVisionText) {
                     ArrayList<String> lines = new ArrayList<String>();
-                    for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
-                        lines.add(block.getText());
+                    String allText = new String();
 
+                    for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
+                        allText += block.getText();
+                        allText += '\n';
                     }
-                    startActivity(new Intent(GeneratePhotoActivity.this, GenerateListActivity.class).putStringArrayListExtra("textList", lines));
+                    TextView testTextView = findViewById(R.id.testTextView);
+                    testTextView.setText(allText);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
