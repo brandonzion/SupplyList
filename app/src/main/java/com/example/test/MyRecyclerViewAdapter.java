@@ -1,6 +1,10 @@
 package com.example.test;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,51 +15,70 @@ import java.util.Collections;
 import com.example.test.ItemMoveCallback.ItemTouchHelperContract;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyRecyclerViewHolder>
-        implements ItemMoveCallback.ItemTouchHelperContract  {
+        implements ItemTouchHelperAdapter {
     private ArrayList<Item> mList;
-    private OnItemClickListener mListener;
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-        void onDeleteClick(int position);
-    }
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-    public static class MyRecyclerViewHolder extends RecyclerView.ViewHolder {
+    private ItemTouchHelper mTouchHelper;
+
+
+
+    public class MyRecyclerViewHolder extends RecyclerView.ViewHolder  implements
+            View.OnTouchListener,
+            GestureDetector.OnGestureListener
+    {
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
         public ImageView mDeleteImage;
+        GestureDetector mGestureDetector;
+
         View rowView;
-        public MyRecyclerViewHolder(View itemView, final OnItemClickListener listener) {
+        public MyRecyclerViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
             rowView = itemView;
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-            mDeleteImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });
+
+            mGestureDetector = new GestureDetector(itemView.getContext(), this);
+
+            itemView.setOnTouchListener(this);
+        }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            mTouchHelper.startDrag(this);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return true;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mGestureDetector.onTouchEvent(motionEvent);
+            return true;
         }
     }
     public MyRecyclerViewAdapter(ArrayList<Item> list) {
@@ -64,7 +87,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public MyRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        MyRecyclerViewHolder evh = new MyRecyclerViewHolder(v, mListener);
+        MyRecyclerViewHolder evh = new MyRecyclerViewHolder(v);
         return evh;
     }
     @Override
@@ -80,27 +103,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public void onRowMoved(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(mList, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(mList, i, i - 1);
-            }
-        }
+    public void onItemMove(int fromPosition, int toPosition) {
+        Item fromItem = mList.get(fromPosition);
+        mList.remove(fromItem);
+        mList.add(toPosition, fromItem);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
-    public void onRowSelected(MyRecyclerViewHolder myViewHolder) {
-        myViewHolder.rowView.setBackgroundColor(Color.GRAY);
-
+    public void onItemSwiped(int position) {
+        mList.remove(position);
+        notifyItemRemoved(position);
     }
 
-    @Override
-    public void onRowClear(MyRecyclerViewHolder myViewHolder) {
-        myViewHolder.rowView.setBackgroundColor(Color.WHITE);
+    public void setTouchHelper(ItemTouchHelper touchHelper){
+        this.mTouchHelper = touchHelper;
     }
 }
