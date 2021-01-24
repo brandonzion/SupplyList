@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GenerateListActivity">
-
+    tools:context="com.example.test.GenerateListActivity">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
         android:padding="4dp"
         android:scrollbars="vertical"
-        android:background="@android:color/darker_gray"
         android:layout_marginBottom="100dp"/>
 
     <EditText
@@ -49,4 +48,5 @@
         android:layout_alignBottom="@+id/edittext_remove"
         android:layout_toEndOf="@+id/edittext_remove"
         android:text="remove" />
+        android:scrollbars="vertical" />
 </RelativeLayout>

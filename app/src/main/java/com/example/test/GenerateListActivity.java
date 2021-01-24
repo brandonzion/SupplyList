@@ -1,12 +1,12 @@
 package com.example.test;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.DragEvent;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,13 +16,10 @@ import com.example.test.R;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 
 import java.util.ArrayList;
-import java.util.List;
-
 public class GenerateListActivity extends AppCompatActivity {
     private ArrayList<Item> mList;
-
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Button buttonInsert;
@@ -30,6 +27,8 @@ public class GenerateListActivity extends AppCompatActivity {
     private EditText editTextInsert;
     private EditText editTextRemove;
 
+    private EditText editTextInsert;
+    private EditText editTextRemove;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,19 +74,42 @@ public class GenerateListActivity extends AppCompatActivity {
     public void createList() {
         Intent i = getIntent();
         ArrayList<String> textList = i.getStringArrayListExtra("textList");
+=======
+        createList();
+        buildRecyclerView();
+    }
+    public void insertItem(int position) {
+        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
+        mAdapter.notifyItemInserted(position);
+    }
+    public void removeItem(int position) {
+        mList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+    public void changeItem(int position, String text) {
+        mList.get(position).changeText1(text);
+        mAdapter.notifyItemChanged(position);
+    }
+    public void createList() {
         mList = new ArrayList<>();
         mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2"));
         mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4"));
         mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6"));
     }
-
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new Adapter(mList);
 
+        mAdapter = new MyRecyclerViewAdapter(mList);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        mAdapter.setTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
         mRecyclerView.setAdapter(mAdapter);
     }
 }
