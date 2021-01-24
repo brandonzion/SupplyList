@@ -53,8 +53,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
         if(requestCode==CAMERA_PIC_REQUEST && resultCode == RESULT_OK){
-            //Bitmap image = (Bitmap)data.getExtras().get("data");
-            Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.supplylistsinglecolumn);
+            Bitmap image = (Bitmap)data.getExtras().get("data");
             FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(image);
             FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
             firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
@@ -67,8 +66,9 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                         allText += block.getText();
                         allText += '\n';
                     }
-                    TextView testTextView = findViewById(R.id.testTextView);
-                    testTextView.setText(allText);
+                    Intent intent = new Intent(GeneratePhotoActivity.this,GenerateListActivity.class);
+                    intent.putStringArrayListExtra("textList",lines);
+                    GeneratePhotoActivity.this.startActivity(intent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
