@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
-        public ImageView mDeleteImage;
+        public CheckBox mCheckBox;
         GestureDetector mGestureDetector;
 
         View rowView;
@@ -34,7 +35,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
-            mDeleteImage = itemView.findViewById(R.id.image_delete);
+            mCheckBox = itemView.findViewById(R.id.checkBox);
             rowView = itemView;
 
             mGestureDetector = new GestureDetector(itemView.getContext(), this);
@@ -111,6 +112,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onItemSwiped(int position) {
         mList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void removeItem(int position) {
+        mList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Item itemNum, int position) {
+        mList.add(new Item(R.drawable.ic_android, "Undo Works", "yeet"));
+        notifyItemInserted(position);
+    }
+
+    public ArrayList<Item> getData() {
+        return mList;
     }
 
     public void setTouchHelper(ItemTouchHelper touchHelper){
