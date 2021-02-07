@@ -1,6 +1,9 @@
 package com.example.test;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyItemTouchHelper extends ItemTouchHelper.Callback {
+
+    private final ColorDrawable background = new ColorDrawable(Color.RED);
 
     private final ItemTouchHelperAdapter mAdapter;
 
@@ -19,7 +24,7 @@ public class MyItemTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public boolean isLongPressDragEnabled() {
         return false;
-    }
+    } 
 
     @Override
     public boolean isItemViewSwipeEnabled() {
@@ -59,6 +64,26 @@ public class MyItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        mAdapter.onItemSwiped(viewHolder.getAdapterPosition());
+        mAdapter.showMenu(viewHolder.getAdapterPosition());
     }
+
+    @Override
+    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+        View itemView = viewHolder.itemView;
+
+        if (dX > 0) {
+            background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+        } else if (dX < 0) {
+            background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+        } else {
+            background.setBounds(0, 0, 0, 0);
+        }
+
+        background.draw(c);
+
+    }
+
+
 }

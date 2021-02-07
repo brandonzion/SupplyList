@@ -6,4 +6,5 @@ public interface ItemTouchHelperAdapter {
 
     void onItemSwiped(int position);
 
+    void showMenu(int adapterPosition);
 }
