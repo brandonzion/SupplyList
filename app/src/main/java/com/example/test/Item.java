@@ -1,27 +1,27 @@
 package com.example.test;
 public class Item {
-    private int mImageResource;
-    private String mText1;
-    private String mText2;
+    private int mQty;
+    private String mName;
+    private String mDesc;
     private boolean mShowMenu = false;
-    public Item(int imageResource, String text1, String text2, boolean showMenu) {
-        mImageResource = imageResource;
+    public Item(int qty, String name, String desc, boolean showMenu) {
+        mQty = qty;
         mShowMenu = showMenu;
-        mText1 = text1;
-        mText2 = text2;
+        mName = name;
+        mDesc = desc;
     }
-    public int getImageResource() {
-        return mImageResource;
+    public int getQty() {
+        return mQty;
     }
-    public String getText1() {
-        return mText1;
+    public String getName() {
+        return mName;
     }
-    public String getText2() {
-        return mText2;
+    public String getDesc() {
+        return mDesc;
     }
     public boolean isShowMenu(){return mShowMenu;}
     public void setShowMenu(boolean showMenu){mShowMenu = showMenu;};
-    public void setImage(int imageResource){mImageResource = imageResource;};
-    public void setText1(String text){mText1 = text;}
-    public void setText2(String text){mText2 = text;}
+    public void setQty(int numb){mQty = numb;};
+    public void setName(String text){mName = text;}
+    public void setDesc(String text){mDesc = text;}
     }

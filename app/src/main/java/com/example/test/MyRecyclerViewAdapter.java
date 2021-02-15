@@ -34,7 +34,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             GestureDetector.OnGestureListener
     {
 
-        public ImageView mImageView;
+        public TextView mQtyView;
         public TextView mTextView1;
         public TextView mTextView2;
         GestureDetector mGestureDetector;
@@ -43,9 +43,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public MyRecyclerViewHolder(View itemView) {
 
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
+            mQtyView = itemView.findViewById(R.id.qtyView);
+            mTextView1 = itemView.findViewById(R.id.nameView);
+            mTextView2 = itemView.findViewById(R.id.descView);
             rowView = itemView;
 
             mGestureDetector = new GestureDetector(itemView.getContext(), this);
@@ -123,9 +123,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof MyRecyclerViewHolder){
             Item currentItem = mList.get(position);
-            ((MyRecyclerViewHolder)holder).mImageView.setImageResource(currentItem.getImageResource());
-            ((MyRecyclerViewHolder)holder).mTextView1.setText(currentItem.getText1());
-            ((MyRecyclerViewHolder)holder).mTextView2.setText(currentItem.getText2());
+            ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
+            ((MyRecyclerViewHolder)holder).mTextView1.setText(currentItem.getName());
+            ((MyRecyclerViewHolder)holder).mTextView2.setText(currentItem.getDesc());
         }
 
         if(holder instanceof MenuViewHolder){

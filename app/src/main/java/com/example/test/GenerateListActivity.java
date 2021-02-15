@@ -12,9 +12,17 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GenerateListActivity extends AppCompatActivity {
     private ArrayList<Item> mList;
+
+    private ArrayList<Integer> qtyList;
+    private ArrayList<String> nameList;
+    private ArrayList<String> descList;
+
     private RecyclerView mRecyclerView;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -33,10 +41,35 @@ public class GenerateListActivity extends AppCompatActivity {
         mAdapter.notifyItemInserted(position);
     }
     public void createList() {
+        int nItem = 5;
+
+        qtyList = new ArrayList<>(
+                Arrays.asList(1, 2, 10, 1, 2)
+        );
+
+        nameList = new ArrayList<>(
+                Arrays.asList("pencil",
+                        "eraser",
+                        "notebook",
+                        "calculator",
+                        "paper")
+        );
+
+        descList = new ArrayList<>(
+                Arrays.asList("Box(es) of Paper Mate® Woodcase Pencils",
+                        "pink, standard erasers",
+                        "Mead® Five Star® Spiral Notebook Wide Ruled",
+                        "Texas Instruments TI-30XIIS 10-Digit Scientific Calculator",
+                        "Package(s) of Mead® Five Star® Reinforced Filler Paper, Wide Ruled, 3 Hole Punched")
+        );
+
         mList = new ArrayList<>();
-        mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2", false));
-        mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4", false));
-        mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
+        //mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2", false));
+        //mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4", false));
+        //mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
+        for(int i = 0; i < nItem; i ++){
+            mList.add(new Item(qtyList.get(i), nameList.get(i), descList.get(i), false));
+        }
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -63,8 +96,8 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 }
 
-//TODO add function to buttons
-//TODO have a way to recover original item
+//TODO add function to buttons (1/2 done)
 //TODO when delete, add to garbage can (be able to recover it)
 //TODO fine tune the swipe visual effects
-//TODO get rid of bug when swipe twice
+//TODO add a seemore onto description if it's too big to fit
+
