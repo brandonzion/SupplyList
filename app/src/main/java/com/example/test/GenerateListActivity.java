@@ -27,28 +27,22 @@ public class GenerateListActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         createList();
         buildRecyclerView();
-        enableSwipeToDeleteAndUndo();
     }
     public void insertItem(int position) {
-        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
+        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2", false));
         mAdapter.notifyItemInserted(position);
-    }
-
-    public void changeItem(int position, String text) {
-        mList.get(position).changeText1(text);
-        mAdapter.notifyItemChanged(position);
     }
     public void createList() {
         mList = new ArrayList<>();
-        mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2"));
-        mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4"));
-        mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6"));
+        mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2", false));
+        mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4", false));
+        mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MyRecyclerViewAdapter(mList);
+        mAdapter = new MyRecyclerViewAdapter(this, mList);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
@@ -59,41 +53,18 @@ public class GenerateListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void enableSwipeToDeleteAndUndo() {
-        MyItemTouchHelper swipeToDeleteCallback = new MyItemTouchHelper(this) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-
-                final int position = viewHolder.getAdapterPosition();
-                final Item item = mAdapter.getData().get(position);
-
-                mAdapter.removeItem(position);
-
-
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        mAdapter.restoreItem(item, position);
-                        mRecyclerView.scrollToPosition(position);
-                    }
-                });
-
-                snackbar.setActionTextColor(Color.YELLOW);
-                snackbar.show();
-
-            }
-        };
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
-        itemTouchhelper.attachToRecyclerView(mRecyclerView);
+    @Override
+    public void onBackPressed() {
+        if (mAdapter.isMenuShown()) {
+            mAdapter.closeMenu();
+        } else {
+            super.onBackPressed();
+        }
     }
-
 }
 
-//TODO: add quantity and item description and check: Done
-//TODO add a delete button when swiped: Not Done
-//TODO add undo/recover button: Not Done
+//TODO add function to buttons
+//TODO have a way to recover original item
+//TODO when delete, add to garbage can (be able to recover it)
+//TODO fine tune the swipe visual effects
+//TODO get rid of bug when swipe twice
