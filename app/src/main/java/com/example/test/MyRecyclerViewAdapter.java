@@ -12,11 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-<<<<<<< HEAD
-import android.graphics.Color;
-=======
 import android.widget.LinearLayout;
->>>>>>> branch1
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -197,17 +193,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void removeItem(int position) {
         mList.remove(position);
-        this.notifyItemRemoved(position);
-    }
-
-    public void removeItem(int position) {
-        mList.remove(position);
         notifyItemRemoved(position);
-    }
-
-    public void restoreItem(Item itemNum, int position) {
-        mList.add(new Item(R.drawable.ic_android, "Undo Works", "yeet"));
-        notifyItemInserted(position);
     }
 
     public ArrayList<Item> getData() {
