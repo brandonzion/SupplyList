@@ -32,7 +32,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/descView"
-            android:layout_width="330dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nameView"
             android:layout_marginStart="8dp"
@@ -44,5 +44,17 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"/>
+
+        <Button
+            android:id="@+id/btShowmore"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@+id/descView"
+            android:background="@android:color/transparent"
+            android:text="See more..."
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_blue_light" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
