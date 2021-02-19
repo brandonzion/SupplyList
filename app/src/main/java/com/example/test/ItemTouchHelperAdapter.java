@@ -1,5 +1,7 @@
 package com.example.test;
 
+import java.util.ArrayList;
+
 public interface ItemTouchHelperAdapter {
 
     void onItemMove(int fromPosition, int toPosition);

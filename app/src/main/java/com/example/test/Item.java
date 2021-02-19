@@ -1,4 +1,7 @@
 package com.example.test;
+
+import android.widget.Button;
+
 public class Item {
     private int mQty;
     private String mName;
@@ -24,4 +27,6 @@ public class Item {
     public void setQty(int numb){mQty = numb;};
     public void setName(String text){mName = text;}
     public void setDesc(String text){mDesc = text;}
+
+
     }

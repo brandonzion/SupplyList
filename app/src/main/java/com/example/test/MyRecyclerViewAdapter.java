@@ -5,11 +5,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,8 +38,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     {
 
         public TextView mQtyView;
-        public TextView mTextView1;
-        public TextView mTextView2;
+        public TextView mNameView;
+        public TextView mDescView;
+        public Button mSeemoreBtn;
         GestureDetector mGestureDetector;
 
         View rowView;
@@ -44,8 +48,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             super(itemView);
             mQtyView = itemView.findViewById(R.id.qtyView);
-            mTextView1 = itemView.findViewById(R.id.nameView);
-            mTextView2 = itemView.findViewById(R.id.descView);
+            mNameView = itemView.findViewById(R.id.nameView);
+            mDescView = itemView.findViewById(R.id.descView);
+            mSeemoreBtn = itemView.findViewById(R.id.seeMoreBtn);
             rowView = itemView;
 
             mGestureDetector = new GestureDetector(itemView.getContext(), this);
@@ -124,8 +129,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(holder instanceof MyRecyclerViewHolder){
             Item currentItem = mList.get(position);
             ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
-            ((MyRecyclerViewHolder)holder).mTextView1.setText(currentItem.getName());
-            ((MyRecyclerViewHolder)holder).mTextView2.setText(currentItem.getDesc());
+            ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
+            ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
+            ((MyRecyclerViewHolder)holder).mSeemoreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Item mItem = mList.get(position);
+                    Intent intent = new Intent(mContext, GenerateSeemoreActivity.class);
+                    int pos = 1;
+                    intent.putExtra("item", pos);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         if(holder instanceof MenuViewHolder){
@@ -203,4 +218,5 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void setTouchHelper(ItemTouchHelper touchHelper){
         this.mTouchHelper = touchHelper;
     }
+
 }

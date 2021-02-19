@@ -1,4 +1,5 @@
 package com.example.test;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -86,14 +87,8 @@ public class GenerateListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mAdapter.isMenuShown()) {
-            mAdapter.closeMenu();
-        } else {
-            super.onBackPressed();
-        }
-    }
+
+
 }
 
 //TODO add function to buttons (1/2 done)
