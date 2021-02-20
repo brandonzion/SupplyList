@@ -1,23 +1,32 @@
 package com.example.test;
+
+import android.widget.Button;
+
 public class Item {
-    private int mImageResource;
-    private String mText1;
-    private String mText2;
-    public Item(int imageResource, String text1, String text2) {
-        mImageResource = imageResource;
-        mText1 = text1;
-        mText2 = text2;
+    private int mQty;
+    private String mName;
+    private String mDesc;
+    private boolean mShowMenu = false;
+    public Item(int qty, String name, String desc, boolean showMenu) {
+        mQty = qty;
+        mShowMenu = showMenu;
+        mName = name;
+        mDesc = desc;
     }
-    public void changeText1(String text) {
-        mText1 = text;
+    public int getQty() {
+        return mQty;
     }
-    public int getImageResource() {
-        return mImageResource;
+    public String getName() {
+        return mName;
     }
-    public String getText1() {
-        return mText1;
+    public String getDesc() {
+        return mDesc;
     }
-    public String getText2() {
-        return mText2;
+    public boolean isShowMenu(){return mShowMenu;}
+    public void setShowMenu(boolean showMenu){mShowMenu = showMenu;};
+    public void setQty(int numb){mQty = numb;};
+    public void setName(String text){mName = text;}
+    public void setDesc(String text){mDesc = text;}
+
+
     }
-}
