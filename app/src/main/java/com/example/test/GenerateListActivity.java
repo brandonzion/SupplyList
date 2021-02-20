@@ -49,10 +49,10 @@ public class GenerateListActivity extends AppCompatActivity {
         );
 
         nameList = new ArrayList<>(
-                Arrays.asList("pencil",
-                        "eraser",
-                        "notebook",
-                        "calculator",
+                Arrays.asList("pencil(s)",
+                        "eraser(s)",
+                        "notebook(s)",
+                        "calculator(s)",
                         "paper")
         );
 
@@ -91,8 +91,10 @@ public class GenerateListActivity extends AppCompatActivity {
 
 }
 
-//TODO add function to buttons (1/2 done)
+//TODO add function to edit button: be able to edit title, desc, qty
 //TODO when delete, add to garbage can (be able to recover it)
 //TODO fine tune the swipe visual effects
-//TODO add a seemore onto description if it's too big to fit
+//TODO have Brandon's engine give us link and image
+//TODO fix item width: if desc is too long, cut it off
+//TODO figure out the limit of characters for desc
 

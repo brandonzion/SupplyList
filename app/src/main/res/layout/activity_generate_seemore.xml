@@ -37,7 +37,9 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemBrand"
-        tools:text="asdfsadf" />
+        tools:text="asdfsadf"
+        android:autoLink="web"
+        android:linksClickable="true"/>
 
     <TextView
         android:id="@+id/itemTitle"
@@ -48,10 +50,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/itemImage"
         android:layout_width="347dp"
         android:layout_height="238dp"
         android:layout_marginTop="64dp"

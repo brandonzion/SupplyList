@@ -1,6 +1,5 @@
   package com.example.test;
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,13 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collections;
-import com.example.test.ItemMoveCallback.ItemTouchHelperContract;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
@@ -135,10 +130,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View view) {
                     Item mItem = mList.get(position);
-                    Intent intent = new Intent(mContext, GenerateSeemoreActivity.class);
-                    int pos = 1;
-                    intent.putExtra("item", pos);
-                    mContext.startActivity(intent);
+                    Intent mIntent = new Intent(mContext, GenerateSeemoreActivity.class);
+
+                    String name = mItem.getQty() + " " + mItem.getName();
+                    String brand = mItem.getDesc();
+
+                    mIntent.putExtra("name", name);
+                    mIntent.putExtra("brand", brand);
+                    mContext.startActivity(mIntent);
                 }
             });
         }
@@ -163,11 +162,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mList.remove(fromItem);
         mList.add(toPosition, fromItem);
         notifyItemMoved(fromPosition, toPosition);
-    }
-
-    @Override
-    public void onItemSwiped(int position) {
-
     }
 
     public void showMenu(int position) {
