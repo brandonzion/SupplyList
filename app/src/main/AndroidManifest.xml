@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Test">
         <activity android:name=".GenerateSeemoreActivity"></activity>
         <activity android:name=".GenerateListActivity" />
+        <activity android:name=".TextTest" />
         <activity android:name=".GeneratePhotoActivity">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
