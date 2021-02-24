@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.LinkMovementMethod;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GenerateSeemoreActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,23 +19,25 @@ public class GenerateSeemoreActivity extends AppCompatActivity {
 
 
 
-        displaySeemore();
+        displayEditView();
     }
 
-    public void displaySeemore(){
+    public void displayEditView(){
         Intent mIntent = getIntent();
         String mTitle = mIntent.getStringExtra("name");
         String mBrand = mIntent.getStringExtra("brand");
 
         TextView mTitleView = findViewById(R.id.itemTitle);
         TextView mPriceView = findViewById(R.id.itemPrice);
-        TextView mBrandView = findViewById(R.id.itemBrand);
+        EditText mBrandView = findViewById(R.id.itemBrand);
         TextView mLinkView = findViewById(R.id.itemLink);
         ImageView mImageView = findViewById(R.id.itemImage);
-        mTitleView.setText(mTitle);
+
+        mTitleView.setText("currently in edit mode");
         mPriceView.setText("test");
-        mBrandView.setText(mBrand);
+        //mBrandView.setText(mBrand);
         mLinkView.setText("http://www.google.com");
+
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

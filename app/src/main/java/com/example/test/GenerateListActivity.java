@@ -69,7 +69,8 @@ public class GenerateListActivity extends AppCompatActivity {
         //mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4", false));
         //mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
         for(int i = 0; i < nItem; i ++){
-            mList.add(new Item(qtyList.get(i), nameList.get(i), descList.get(i), false));
+            String mDesc = descList.get(i);
+            mList.add(new Item(qtyList.get(i), nameList.get(i), mDesc, false));
         }
     }
     public void buildRecyclerView() {
@@ -95,6 +96,4 @@ public class GenerateListActivity extends AppCompatActivity {
 //TODO when delete, add to garbage can (be able to recover it)
 //TODO fine tune the swipe visual effects
 //TODO have Brandon's engine give us link and image
-//TODO fix item width: if desc is too long, cut it off
-//TODO figure out the limit of characters for desc
 

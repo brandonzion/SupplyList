@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+import static android.widget.TextView.*;
+
+  public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
     private ArrayList<Item> mList;
     private ItemTouchHelper mTouchHelper;
@@ -147,6 +150,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View view) {
                     removeItem(position);
+                }
+            });
+
+            ((MenuViewHolder)holder).mEditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Item mItem = mList.get(position);
+                    Intent mIntent = new Intent(mContext, EditActivity.class);
+
+                    String name = mItem.getQty() + " " + mItem.getName();
+                    String brand = mItem.getDesc();
+
+                    mIntent.putExtra("name", name);
+                    mIntent.putExtra("brand", brand);
+                    mContext.startActivity(mIntent);
                 }
             });
         }
