@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GeneratePhotoActivity extends AppCompatActivity {
@@ -40,7 +41,8 @@ public class GeneratePhotoActivity extends AppCompatActivity {
     private TessBaseAPI tessBaseAPI;
     private Uri outputFileDir;
     private String mCurrentPhotoPath;
-
+    public static final String[] keywords = {"Colored Pencils", "Pencils", "Colored Markers", "Notebook", "Notebooks", "Highlighters", "Pens", "Index Cards", "Sharpener", "Sharpeners", "Folder", "Folders", "Glue Sticks", "Scissors", "Binder", "Binders", "Dividers", "Pencil Pouch", "Earbuds", "Hand Sanitizer",
+            "Graph Paper", "Expo Markers", "Sticky Notes", "Crayons", "Sharpies", "Eraser", "Erasers", "Ruler", "Stapler", "Calculator", "Tissues"};
     int CAMERA_PIC_REQUEST = 1337;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,30 @@ public class GeneratePhotoActivity extends AppCompatActivity {
             prepareTessData();
             startOCR(image);
             String allText = getText(image);
+            String[] textArray = allText.split("\n");
+            String title = textArray[0];
+            textArray = Arrays.copyOfRange(textArray, 1, textArray.length);
+            ArrayList items = new ArrayList();
+            int index = 0;
+            ArrayList temp = new ArrayList();
+            for (int i=0; i<textArray.length; i++) {
+                if (!textArray[i].isEmpty()){
+                    String[] itemSplitArray = textArray[i].trim().split("\\s+", 2);
+                    String confirmedKeyword = new String();
+                    for (String keyword : keywords){
+                        if (itemSplitArray[1].contains(keyword)){
+                            confirmedKeyword = keyword;
+                            break;
+                        }
+                        else{
+                            confirmedKeyword = "Unknown";
+                        }
+                    }
+                    if (itemSplitArray[0].matches(".*\\d.*")){
+                        items.add(new Item(Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i]));
+                    }
+                }
+            }
             Intent intent = new Intent(GeneratePhotoActivity.this,TextTest.class);
             intent.putExtra("textList",allText);
             GeneratePhotoActivity.this.startActivity(intent);

@@ -1,4 +1,4 @@
-  package com.example.test;
+/*package com.example.test;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.test.GenerateSeemoreActivity;
+import com.example.test.ItemTouchHelperAdapter;
+import com.example.test.R;
+
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -213,4 +218,4 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.mTouchHelper = touchHelper;
     }
 
-}
+}*/

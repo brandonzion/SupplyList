@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configureAddButton();
-        configureShowButton();
-        configureOpenList();
+        //configureShowButton();
+        //configureOpenList();
     }
 
     private void configureAddButton() {
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+/*
     private void configureShowButton() {
         Button showButton = findViewById(R.id.showButton);
         showButton.setOnClickListener(new View.OnClickListener() {
@@ -47,5 +47,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GenerateListActivity.class));
             }
         });
-    }
+    }*/
 }

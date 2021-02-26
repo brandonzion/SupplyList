@@ -3,7 +3,7 @@ package com.example.test;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.annotation.NonNull;
-
+/*
 public class ItemMoveCallback extends ItemTouchHelper.Callback{
     private final ItemTouchHelperContract  mAdapter;
 
@@ -75,5 +75,4 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback{
 
     }
 
-}
-
+}*/
