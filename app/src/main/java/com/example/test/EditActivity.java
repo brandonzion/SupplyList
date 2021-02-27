@@ -15,7 +15,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_generate_seemore);
+        setContentView(R.layout.activity_edit);
 
 
 
@@ -27,16 +27,16 @@ public class EditActivity extends AppCompatActivity {
         String mTitle = mIntent.getStringExtra("name");
         String mBrand = mIntent.getStringExtra("brand");
 
-        TextView mTitleView = findViewById(R.id.itemTitle);
-        TextView mPriceView = findViewById(R.id.itemPrice);
+        EditText mTitleView = findViewById(R.id.itemTitle);
+        EditText mPriceView = findViewById(R.id.itemPrice);
         EditText mBrandView = findViewById(R.id.itemBrand);
         TextView mLinkView = findViewById(R.id.itemLink);
         ImageView mImageView = findViewById(R.id.itemImage);
 
-        mTitleView.setText("currently in edit mode");
-        mPriceView.setText("test");
-        //mBrandView.setText(mBrand);
+        mTitleView.setText(mTitle);
         mLinkView.setText("http://www.google.com");
+        mPriceView.setText("test");
+        mBrandView.setText(mBrand);
 
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }

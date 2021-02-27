@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".EditActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/itemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="18sp"
-        android:editable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemTitle"
         tools:text="asdfsadf" />
@@ -42,7 +41,7 @@
         android:autoLink="web"
         android:linksClickable="true"/>
 
-    <TextView
+    <EditText
         android:id="@+id/itemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,16 +62,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mdi_edit" />
 
-
-    <EditText
-        android:id="@+id/editTextTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:inputType="text"
-        android:text="edit me"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

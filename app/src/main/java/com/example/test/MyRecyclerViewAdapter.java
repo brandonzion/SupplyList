@@ -210,7 +210,7 @@ import static android.widget.TextView.*;
 
     @Override
     public int getItemViewType(int position) {
-        if(mList.get(position).isShowMenu()){
+        if(mList.get(position).isShowMenu() == true){
             return SHOW_MENU;
         }else{
             return HIDE_MENU;
