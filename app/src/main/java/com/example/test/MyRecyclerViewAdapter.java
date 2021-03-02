@@ -105,9 +105,9 @@ import static android.widget.TextView.*;
             mDeleteButton = view.findViewById(R.id.deleteButton);
         }
     }
-    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<ItemDisplay> list) {
         mContext = context;
-        mList = new ArrayList<ItemDisplay>();
+        mList = list;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -149,7 +149,7 @@ import static android.widget.TextView.*;
             ((MenuViewHolder)holder).mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //removeItem(position);
+                    removeItem(position);
                 }
             });
 

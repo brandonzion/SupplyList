@@ -20,11 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GenerateListActivity extends AppCompatActivity {
-    private ArrayList<Item> mList;
-
-    private ArrayList<Integer> qtyList;
-    private ArrayList<String> nameList;
-    private ArrayList<String> descList;
+    private ArrayList<ItemDisplay> mList;
 
     private RecyclerView mRecyclerView;
     private MyRecyclerViewAdapter mAdapter;
@@ -39,47 +35,16 @@ public class GenerateListActivity extends AppCompatActivity {
         createList();
         buildRecyclerView();
     }
-    public void insertItem(int position) {
-        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
-        mAdapter.notifyItemInserted(position);
-    }
     public void createList() {
         Intent mIntent = getIntent();
         ArrayList<Item> mItems = (ArrayList<Item>) mIntent.getSerializableExtra("items");
-
-
-        String testQty = String.valueOf(mItems.get(0).getQty());
-        System.out.println(testQty);
-        int nItem = 5;
-
-        qtyList = new ArrayList<>(
-                Arrays.asList(1, 2, 10, 1, 2)
-        );
-
-        nameList = new ArrayList<>(
-                Arrays.asList("pencil(s)",
-                        "eraser(s)",
-                        "notebook(s)",
-                        "calculator(s)",
-                        "paper")
-        );
-
-        descList = new ArrayList<>(
-                Arrays.asList("Box(es) of Paper Mate® Woodcase Pencils",
-                        "pink, standard erasers",
-                        "Mead® Five Star® Spiral Notebook Wide Ruled",
-                        "Texas Instruments TI-30XIIS 10-Digit Scientific Calculator",
-                        "Package(s) of Mead® Five Star® Reinforced Filler Paper, Wide Ruled, 3 Hole Punched")
-        );
-
+        int nItem = mItems.size();
         mList = new ArrayList<>();
-        //mList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2", false));
-        //mList.add(new Item(R.drawable.ic_android, "Line 3", "Line 4", false));
-        //mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
-        for(int i = 0; i < nItem; i ++){
-            String mDesc = descList.get(i);
-            mList.add(new Item(qtyList.get(i), nameList.get(i), mDesc));
+        for(int i = 0; i<mItems.size(); i++) {
+            ItemDisplay itemDisplay = new ItemDisplay(mItems.get(i));
+            mList.add(itemDisplay);
         }
+
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -100,8 +65,7 @@ public class GenerateListActivity extends AppCompatActivity {
 
 }
 
-//TODO add function to edit button: be able to edit title, desc, qty
 //TODO when delete, add to garbage can (be able to recover it)
-//TODO fine tune the swipe visual effects
-//TODO have Brandon's engine give us link and image
-
+//TODO make edit save
+//TODO save list on home screen when photo is taken
+//TODO make home button
