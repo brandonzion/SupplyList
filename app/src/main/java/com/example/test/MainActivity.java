@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configureAddButton();
-        configureShowButton();
-        configureOpenList();
+        //configureShowButton();
+        //configureOpenList();
     }
 
     private void configureAddButton() {

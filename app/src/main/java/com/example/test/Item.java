@@ -1,10 +1,14 @@
 package com.example.test;
 
-public class Item {
+import android.os.Parcelable;
+import android.widget.Button;
+
+import java.io.Serializable;
+
+public class Item implements Serializable{
     private int mQty;
     private String mName;
     private String mDesc;
-    private boolean mShowMenu = false;
     public Item(int qty, String name, String desc) {
         mQty = qty;
         mName = name;
@@ -19,11 +23,9 @@ public class Item {
     public String getDesc() {
         return mDesc;
     }
-    public boolean isShowMenu(){return mShowMenu;}
-    public void setShowMenu(boolean showMenu){mShowMenu = showMenu;};
     public void setQty(int numb){mQty = numb;};
     public void setName(String text){mName = text;}
     public void setDesc(String text){mDesc = text;}
 
 
-    }
+}
