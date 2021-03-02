@@ -1,11 +1,13 @@
-/*package com.example.test;
+package com.example.test;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,18 +56,24 @@ public class GeneratePhotoActivity extends AppCompatActivity {
 
         if(requestCode==CAMERA_PIC_REQUEST && resultCode == RESULT_OK){
             //Bitmap image = (Bitmap)data.getExtras().get("data");
-            Bitmap image = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon);
+            Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.supplylistsinglecolumn);
             FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(image);
             FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
             firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                 @Override
                 public void onSuccess(FirebaseVisionText firebaseVisionText) {
                     ArrayList<String> lines = new ArrayList<String>();
+                    ArrayList<Rect> rectangles = new ArrayList<Rect>();
+                    String allText = new String();
                     for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
-                        lines.add(block.getText());
-
+                        allText += block.getText();
+                        allText += '\n';
+                        rectangles.add(block.getBoundingBox());
                     }
-                    startActivity(new Intent(GeneratePhotoActivity.this, GenerateListActivity.class).putStringArrayListExtra("textList", lines));
+                    Intent intent = new Intent(GeneratePhotoActivity.this,TextTest.class);
+                    intent.putExtra("textList",allText);
+                    intent.putExtra("rectangles",rectangles);
+                    GeneratePhotoActivity.this.startActivity(intent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -90,4 +99,4 @@ public class GeneratePhotoActivity extends AppCompatActivity {
             }
         });
     }
-}*/
+}
