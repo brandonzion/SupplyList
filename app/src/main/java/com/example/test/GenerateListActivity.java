@@ -38,7 +38,7 @@ public class GenerateListActivity extends AppCompatActivity {
         buildRecyclerView();
     }
     public void insertItem(int position) {
-        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2", false));
+        mList.add(position, new Item(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
         mAdapter.notifyItemInserted(position);
     }
     public void createList() {
@@ -70,7 +70,7 @@ public class GenerateListActivity extends AppCompatActivity {
         //mList.add(new Item(R.drawable.ic_android, "Line 5", "Line 6", false));
         for(int i = 0; i < nItem; i ++){
             String mDesc = descList.get(i);
-            mList.add(new Item(qtyList.get(i), nameList.get(i), mDesc, false));
+            mList.add(new Item(qtyList.get(i), nameList.get(i), mDesc));
         }
     }
     public void buildRecyclerView() {
