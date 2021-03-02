@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -42,6 +44,12 @@ public class GenerateListActivity extends AppCompatActivity {
         mAdapter.notifyItemInserted(position);
     }
     public void createList() {
+        Intent mIntent = getIntent();
+        ArrayList<Item> mItems = (ArrayList<Item>) mIntent.getSerializableExtra("items");
+
+
+        String testQty = String.valueOf(mItems.get(0).getQty());
+        System.out.println(testQty);
         int nItem = 5;
 
         qtyList = new ArrayList<>(

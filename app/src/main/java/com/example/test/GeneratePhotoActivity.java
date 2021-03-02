@@ -84,7 +84,8 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                     String[] itemSplitArray = textArray[i].trim().split("\\s+", 2);
                     String confirmedKeyword = new String();
                     for (String keyword : keywords){
-                        if (itemSplitArray[1].contains(keyword)){
+
+                        if (itemSplitArray[1].toLowerCase().contains(keyword.toLowerCase())){
                             confirmedKeyword = keyword;
                             break;
                         }
@@ -97,8 +98,8 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                     }
                 }
             }
-            Intent intent = new Intent(GeneratePhotoActivity.this,TextTest.class);
-            intent.putExtra("textList",items);
+            Intent intent = new Intent(GeneratePhotoActivity.this, GenerateListActivity.class);
+            intent.putExtra("items",items);
             GeneratePhotoActivity.this.startActivity(intent);
         }
         super.onActivityResult(requestCode,resultCode,data);

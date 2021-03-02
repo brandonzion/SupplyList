@@ -21,7 +21,7 @@ import static android.widget.TextView.*;
 
   public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
-    private ArrayList<Item> mList;
+    private ArrayList<ItemDisplay> mList;
     private ItemTouchHelper mTouchHelper;
     final int SHOW_MENU = 1;
     final int HIDE_MENU = 2;
@@ -107,7 +107,7 @@ import static android.widget.TextView.*;
     }
     public MyRecyclerViewAdapter(Context context, ArrayList<Item> list) {
         mContext = context;
-        mList = list;
+        mList = new ArrayList<ItemDisplay>();
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -125,14 +125,14 @@ import static android.widget.TextView.*;
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof MyRecyclerViewHolder){
-            Item currentItem = mList.get(position);
+            ItemDisplay currentItem = mList.get(position);
             ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
             ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
             ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
             ((MyRecyclerViewHolder)holder).mSeemoreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Item mItem = mList.get(position);
+                    ItemDisplay mItem = mList.get(position);
                     Intent mIntent = new Intent(mContext, GenerateSeemoreActivity.class);
 
                     String name = mItem.getQty() + " " + mItem.getName();
@@ -149,14 +149,14 @@ import static android.widget.TextView.*;
             ((MenuViewHolder)holder).mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    removeItem(position);
+                    //removeItem(position);
                 }
             });
 
             ((MenuViewHolder)holder).mEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Item mItem = mList.get(position);
+                    ItemDisplay mItem = mList.get(position);
                     Intent mIntent = new Intent(mContext, EditActivity.class);
 
                     String name = mItem.getQty() + " " + mItem.getName();
@@ -176,7 +176,7 @@ import static android.widget.TextView.*;
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Item fromItem = mList.get(fromPosition);
+        ItemDisplay fromItem = mList.get(fromPosition);
         mList.remove(fromItem);
         mList.add(toPosition, fromItem);
         notifyItemMoved(fromPosition, toPosition);
@@ -223,7 +223,7 @@ import static android.widget.TextView.*;
         notifyItemRemoved(position);
     }
 
-    public ArrayList<Item> getData() {
+    public ArrayList<ItemDisplay> getData() {
         return mList;
     }
 
