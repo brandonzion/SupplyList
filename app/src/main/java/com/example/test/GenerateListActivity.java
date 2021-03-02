@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-/*
+
 public class GenerateListActivity extends AppCompatActivity {
     private ArrayList<Item> mList;
 
@@ -25,7 +25,7 @@ public class GenerateListActivity extends AppCompatActivity {
     private ArrayList<String> descList;
 
     private RecyclerView mRecyclerView;
-    private MyRecyclerViewAdapter mAdapter;
+    //private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     CoordinatorLayout coordinatorLayout;
 
@@ -35,7 +35,7 @@ public class GenerateListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generate_list);
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         createList();
-        buildRecyclerView();
+        //buildRecyclerView();
     }
     public void createList() {
         int nItem = 5;
@@ -70,7 +70,7 @@ public class GenerateListActivity extends AppCompatActivity {
         // mList[i].GetQty()
 
     }
-    public void buildRecyclerView() {
+    /*public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -83,11 +83,11 @@ public class GenerateListActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mRecyclerView.setAdapter(mAdapter);
-    }
+    }*/
 
 
 
-}*/
+}
 
 //TODO add function to edit button: be able to edit title, desc, qty
 //TODO when delete, add to garbage can (be able to recover it)

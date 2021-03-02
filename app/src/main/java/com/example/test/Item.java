@@ -1,8 +1,11 @@
 package com.example.test;
 
+import android.os.Parcelable;
 import android.widget.Button;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable{
     private int mQty;
     private String mName;
     private String mDesc;
@@ -25,4 +28,4 @@ public class Item {
     public void setDesc(String text){mDesc = text;}
 
 
-    }
+}

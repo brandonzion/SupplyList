@@ -1,4 +1,4 @@
-/*package com.example.test;
+package com.example.test;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +21,7 @@ import com.example.test.R;
 
 import java.util.ArrayList;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+/*public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
     private ArrayList<Item> mList;
     private ItemTouchHelper mTouchHelper;

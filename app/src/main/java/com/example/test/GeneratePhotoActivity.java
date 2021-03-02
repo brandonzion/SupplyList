@@ -69,7 +69,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
 
         if(requestCode==CAMERA_PIC_REQUEST && resultCode == RESULT_OK){
             //Bitmap image = (Bitmap)data.getExtras().get("data");
-            Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.supplylistsinglecolumn);
+            Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.easylist);
             prepareTessData();
             startOCR(image);
             String allText = getText(image);
@@ -98,7 +98,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                 }
             }
             Intent intent = new Intent(GeneratePhotoActivity.this,TextTest.class);
-            intent.putExtra("textList",allText);
+            intent.putExtra("textList",items);
             GeneratePhotoActivity.this.startActivity(intent);
         }
         super.onActivityResult(requestCode,resultCode,data);

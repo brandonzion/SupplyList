@@ -33,8 +33,13 @@ public class TextTest extends AppCompatActivity {
         setContentView(R.layout.texttest);
         Intent intent = getIntent();
         Bundle allExtras = intent.getExtras();
-        String allText = (String) allExtras.get("textList");
+        ArrayList<Item> allItems = (ArrayList<Item>) allExtras.getSerializable("textList");
+        String fullString = new String();
+        for (Item item : allItems){
+            String temp = item.getDesc();
+            fullString += temp + "\n";
+        }
         TextView myTextView = findViewById(R.id.myText);
-        myTextView.setText(allText);
+        myTextView.setText(fullString);
     }
 }
