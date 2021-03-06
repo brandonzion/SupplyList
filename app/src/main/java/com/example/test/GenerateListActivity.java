@@ -60,12 +60,10 @@ public class GenerateListActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
     }
-
-
-
 }
 
 //TODO when delete, add to garbage can (be able to recover it)
 //TODO make edit save
 //TODO save list on home screen when photo is taken
 //TODO make home button
+//TODO how to save things and load it back
