@@ -13,12 +13,28 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class EditActivity extends AppCompatActivity {
+
+    private ArrayList<ItemDisplay> mItemDisplayList;
+    private ArrayList<Item> mItemList;
+    private int mPosition;
+    private ItemDisplay mItemDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        Intent mIntent = getIntent();
+
+        //String mTitle = mIntent.getStringExtra("name");
+        //String mBrand = mIntent.getStringExtra("brand");
+        mItemDisplayList = (ArrayList<ItemDisplay>) mIntent.getSerializableExtra("list");
+        mPosition = (int) mIntent.getSerializableExtra("position");
+        mItemDisplay = mItemDisplayList.get(mPosition);
+        mItemList = new ArrayList<>();
 
 
 
@@ -27,9 +43,6 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void displayEditView(){
-        Intent mIntent = getIntent();
-        String mTitle = mIntent.getStringExtra("name");
-        String mBrand = mIntent.getStringExtra("brand");
 
         EditText mTitleView = findViewById(R.id.itemTitle);
         EditText mPriceView = findViewById(R.id.itemPrice);
@@ -37,10 +50,10 @@ public class EditActivity extends AppCompatActivity {
         TextView mLinkView = findViewById(R.id.itemLink);
         ImageView mImageView = findViewById(R.id.itemImage);
 
-        mTitleView.setText(mTitle);
+        mTitleView.setText(mItemDisplay.getQty() + " " + mItemDisplay.getName());
         mLinkView.setText("http://www.google.com");
         mPriceView.setText("test");
-        mBrandView.setText(mBrand);
+        mBrandView.setText(mItemDisplay.getDesc());
 
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -51,14 +64,18 @@ public class EditActivity extends AppCompatActivity {
         EditText mBrandView = findViewById(R.id.itemBrand);
         Button mSaveButton = findViewById(R.id.saveButton);
 
+
+        for(int i = 0; i<mItemDisplayList.size(); i++) {
+            Item item = mItemDisplayList.get(i).mItem;
+            mItemList.add(item);
+        }
+
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
-                editToItemIntent.putExtra("title", mTitleView.getText().toString());
-                editToItemIntent.putExtra("price", mPriceView.getText().toString());
-                editToItemIntent.putExtra("brand", mBrandView.getText().toString());
-                EditActivity.this.startActivity(editToItemIntent);
+                editToItemIntent.putExtra("items", mItemList);
+                 EditActivity.this.startActivity(editToItemIntent);
             }
         });
     }

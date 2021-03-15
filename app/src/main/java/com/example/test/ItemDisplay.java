@@ -1,6 +1,8 @@
 package com.example.test;
 
-public class ItemDisplay {
+import java.io.Serializable;
+
+public class ItemDisplay implements Serializable {
 
     Item mItem;
     Boolean mShowMenu;

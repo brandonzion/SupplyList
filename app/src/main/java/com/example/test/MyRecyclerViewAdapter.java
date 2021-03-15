@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static android.widget.TextView.*;
@@ -156,14 +158,17 @@ import static android.widget.TextView.*;
             ((MenuViewHolder)holder).mEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ItemDisplay mItem = mList.get(position);
+                    ItemDisplay mItemDisplay = mList.get(position);
                     Intent mIntent = new Intent(mContext, EditActivity.class);
 
-                    String name = mItem.getQty() + " " + mItem.getName();
-                    String brand = mItem.getDesc();
+                    //String name = mItemDisplay.getQty() + " " + mItemDisplay.getName();
+                    //String brand = mItemDisplay.getDesc();
 
-                    mIntent.putExtra("name", name);
-                    mIntent.putExtra("brand", brand);
+                    //mIntent.putExtra("name", name);
+                    //mIntent.putExtra("brand", brand);
+                    mIntent.putExtra("list", mList);
+                    mIntent.putExtra("position", position);
+
                     mContext.startActivity(mIntent);
                 }
             });
