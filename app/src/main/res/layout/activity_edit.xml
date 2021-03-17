@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/itemName"
         tools:text="asdfsadf" />
 
     <EditText
@@ -42,14 +42,14 @@
         android:linksClickable="true"/>
 
     <EditText
-        android:id="@+id/itemTitle"
+        android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemQty"
         app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
     <ImageView
@@ -71,5 +71,16 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/itemQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="16dp"
+        android:text="1"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

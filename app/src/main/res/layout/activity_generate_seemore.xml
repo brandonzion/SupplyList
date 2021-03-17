@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/itemName"
         tools:text="asdfsadf" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:linksClickable="true"/>
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

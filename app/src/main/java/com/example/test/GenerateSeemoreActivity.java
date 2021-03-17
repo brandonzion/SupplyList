@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +25,7 @@ public class GenerateSeemoreActivity extends AppCompatActivity {
         String mTitle = mIntent.getStringExtra("name");
         String mBrand = mIntent.getStringExtra("brand");
 
-        TextView mTitleView = findViewById(R.id.itemTitle);
+        TextView mTitleView = findViewById(R.id.itemName);
         TextView mPriceView = findViewById(R.id.itemPrice);
         TextView mBrandView = findViewById(R.id.itemBrand);
         TextView mLinkView = findViewById(R.id.itemLink);

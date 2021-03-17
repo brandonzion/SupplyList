@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.InputType;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -44,13 +42,16 @@ public class EditActivity extends AppCompatActivity {
 
     public void displayEditView(){
 
-        EditText mTitleView = findViewById(R.id.itemTitle);
+        EditText mNameView = findViewById(R.id.itemName);
+        EditText mQtyView = findViewById(R.id.itemQty);
         EditText mPriceView = findViewById(R.id.itemPrice);
         EditText mBrandView = findViewById(R.id.itemBrand);
         TextView mLinkView = findViewById(R.id.itemLink);
         ImageView mImageView = findViewById(R.id.itemImage);
+        String stringQty = Integer.toString(mItemDisplay.getQty());
 
-        mTitleView.setText(mItemDisplay.getQty() + " " + mItemDisplay.getName());
+        mNameView.setText(mItemDisplay.getName());
+        mQtyView.setText(stringQty);
         mLinkView.setText("http://www.google.com");
         mPriceView.setText("test");
         mBrandView.setText(mItemDisplay.getDesc());
@@ -59,20 +60,27 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void configureSaveButton(){
-        EditText mTitleView = findViewById(R.id.itemTitle);
+        EditText mNameView = findViewById(R.id.itemName);
+        EditText mQtyView = findViewById(R.id.itemQty);
         EditText mPriceView = findViewById(R.id.itemPrice);
         EditText mBrandView = findViewById(R.id.itemBrand);
         Button mSaveButton = findViewById(R.id.saveButton);
 
-
-        for(int i = 0; i<mItemDisplayList.size(); i++) {
-            Item item = mItemDisplayList.get(i).mItem;
-            mItemList.add(item);
-        }
-
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String newName = mNameView.getText().toString();
+                mItemDisplay.mItem.setName(newName);
+                int newQty = Integer.parseInt(mQtyView.getText().toString());
+                mItemDisplay.mItem.setQty(newQty);
+                String newDesc = mBrandView.getText().toString();
+                mItemDisplay.mItem.setDesc(newDesc);
+
+
+                for(int i = 0; i<mItemDisplayList.size(); i++) {
+                    Item item = mItemDisplayList.get(i).mItem;
+                    mItemList.add(item);
+                }
                 Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
                 editToItemIntent.putExtra("items", mItemList);
                  EditActivity.this.startActivity(editToItemIntent);
