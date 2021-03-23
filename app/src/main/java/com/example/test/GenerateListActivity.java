@@ -12,6 +12,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -19,10 +20,20 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
 public class GenerateListActivity extends AppCompatActivity {
+    private static final String MY_FILE_NAME = "listData.txt";
+
     private ArrayList<ItemDisplay> mList;
 
     private RecyclerView mRecyclerView;
+    private  ArrayList<Item> mItems;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     CoordinatorLayout coordinatorLayout;
@@ -37,8 +48,7 @@ public class GenerateListActivity extends AppCompatActivity {
     }
     public void createList() {
         Intent mIntent = getIntent();
-        ArrayList<Item> mItems = (ArrayList<Item>) mIntent.getSerializableExtra("items");
-        int nItem = mItems.size();
+        mItems = (ArrayList<Item>) mIntent.getSerializableExtra("items");
         mList = new ArrayList<>();
         for(int i = 0; i<mItems.size(); i++) {
             ItemDisplay itemDisplay = new ItemDisplay(mItems.get(i));
@@ -60,15 +70,62 @@ public class GenerateListActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    public void configureSaveButton(View v) {
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(MY_FILE_NAME, MODE_PRIVATE);
+            for(int i = 0; i < mItems.size(); i++) {
+                Item currentItem = mItems.get(i);
+                String text = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
+                fos.write(text.getBytes());
+            }
+            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + MY_FILE_NAME,
+                    Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void load(View v) {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(MY_FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
 
 
 //TODO when delete, add to garbage can (be able to recover it)
-//TODO make edit save
 //TODO save list on home screen when photo is taken
 //TODO make home button
 //TODO how to save things and load it back
-//TODO evaluate whether to keep itemDisplay or not
-//TODO compare serializable and the parcelable
-//TODO verify if primary variable can be passed through intent
 
