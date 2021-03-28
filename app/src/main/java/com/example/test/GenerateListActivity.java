@@ -12,6 +12,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -28,11 +29,12 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 public class GenerateListActivity extends AppCompatActivity {
-    private static final String MY_FILE_NAME = "listData.txt";
+    private  String mFileName;
 
     private ArrayList<ItemDisplay> mList;
 
     private RecyclerView mRecyclerView;
+    private EditText listTitle;
     private  ArrayList<Item> mItems;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -43,6 +45,7 @@ public class GenerateListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_list);
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        listTitle = findViewById(R.id.listTitle);
         createList();
         buildRecyclerView();
     }
@@ -71,16 +74,17 @@ public class GenerateListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void configureSaveButton(View v) {
+    public void save(View v) {
+        mFileName = listTitle.getText().toString();
         FileOutputStream fos = null;
         try {
-            fos = openFileOutput(MY_FILE_NAME, MODE_PRIVATE);
+            fos = openFileOutput(mFileName, MODE_PRIVATE);
             for(int i = 0; i < mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
                 String text = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
                 fos.write(text.getBytes());
             }
-            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + MY_FILE_NAME,
+            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + mFileName,
                     Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -99,7 +103,7 @@ public class GenerateListActivity extends AppCompatActivity {
     public void load(View v) {
         FileInputStream fis = null;
         try {
-            fis = openFileInput(MY_FILE_NAME);
+            fis = openFileInput(mFileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -126,6 +130,8 @@ public class GenerateListActivity extends AppCompatActivity {
 
 //TODO when delete, add to garbage can (be able to recover it)
 //TODO save list on home screen when photo is taken
+//TODO display title in preview of home screen
 //TODO make home button
-//TODO how to save things and load it back
+//TODO provide option to name save file, otherwise use default
+
 
