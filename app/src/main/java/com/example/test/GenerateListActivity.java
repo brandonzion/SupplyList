@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 
 public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
+    private int fileIndex = 0;
 
     private ArrayList<ItemDisplay> mList;
 
@@ -48,6 +49,9 @@ public class GenerateListActivity extends AppCompatActivity {
         listTitle = findViewById(R.id.listTitle);
         createList();
         buildRecyclerView();
+
+        //TODO create a blank file with index name
+        //TODO fill it with current data
     }
     public void createList() {
         Intent mIntent = getIntent();
@@ -75,7 +79,9 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 
     public void save(View v) {
-        mFileName = listTitle.getText().toString();
+        //TODO when save, overwrite existing file and close it
+        //TODO once saved, go back to home automatically
+        mFileName = "list" + fileIndex + ".dat";
         FileOutputStream fos = null;
         try {
             fos = openFileOutput(mFileName, MODE_PRIVATE);
@@ -99,6 +105,7 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
+        fileIndex ++;
     }
     public void load(View v) {
         FileInputStream fis = null;
