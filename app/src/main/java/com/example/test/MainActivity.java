@@ -1,11 +1,15 @@
 package com.example.test;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintProperties;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -24,14 +28,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
+        ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
         File directory;
         directory = getFilesDir();
         File[] files = directory.listFiles();
         File[] exFileList = searchListData();
-
-        if(mListData.size() > 0){
-            load(mListData.get(0));
+        int  listButtonWidth = 500;
+        int listButtonHeight = 550;
+        for(int i = 0; i < 6; i++){
+            Button button = new Button(this);
+            button.setText("list " + i);
+            button.setId(i + 100);           // <-- Important
+            layout.addView(button);
+            int row = i/2;
+            int col = i%2;
+            set.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ listButtonHeight) * row);
+            set.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + listButtonWidth) * col);
+            set.constrainHeight(button.getId(), listButtonHeight);
+            set.constrainWidth(button.getId(), listButtonWidth);
+            set.applyTo(layout);
         }
+
 
 
         //search for any existing files containing list data
@@ -40,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
      
         configureAddButton();
         //configureShowButton();
-        //configureOpenList();
     }
 
     private void configureAddButton() {
@@ -63,15 +81,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void configureOpenList() {
-        TextView list1 = findViewById(R.id.list1);
-        list1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, GenerateListActivity.class));
-            }
-        });
-    }
 
     private File[] searchListData(){
         filePath = "list0.dat";
