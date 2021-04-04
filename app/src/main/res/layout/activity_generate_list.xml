@@ -33,22 +33,22 @@ tools:context=".MainActivity">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recyclerView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
             android:onClick="save"
             android:text="save" />
 
         <Button
-            android:id="@+id/loadButton"
+            android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recyclerView"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:onClick="load"
-            android:text="load" />
+            android:layout_marginStart="16dp"
+            android:onClick="returnHome"
+            android:text="Home" />
 
 
     </RelativeLayout>

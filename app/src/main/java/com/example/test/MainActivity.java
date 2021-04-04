@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         File[] exFileList = searchListData();
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 6 && i < files.length; i++){
             Button button = new Button(this);
-            button.setText("list " + i);
+            button.setText(files[i].getName());
             button.setId(i + 100);           // <-- Important
             layout.addView(button);
             int row = i/2;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void configureShowButton() {
+    /*private void configureShowButton() {
         Button showButton = findViewById(R.id.showButton);
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GenerateListActivity.class));
             }
         });
-    }
+    }*/
 
 
     private File[] searchListData(){

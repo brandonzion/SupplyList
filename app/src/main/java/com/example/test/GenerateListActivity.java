@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.telephony.mbms.MbmsErrors;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -131,6 +132,11 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void returnHome(View v) {
+        Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
+        GenerateListActivity.this.startActivity(intent);
     }
 }
 
