@@ -34,12 +34,38 @@ public class MainActivity extends AppCompatActivity {
         File directory;
         directory = getFilesDir();
         File[] files = directory.listFiles();
-        File[] exFileList = searchListData();
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
         for(int i = 0; i < 6 && i < files.length; i++){
             Button button = new Button(this);
-            button.setText(files[i].getName());
+
+            // Open file and read title, and list
+            FileInputStream fis = null;
+            try {
+                fis = openFileInput(files[i].getName());
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String text;
+
+                text = br.readLine();
+
+                button.setText(text);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             button.setId(i + 100);           // <-- Important
             layout.addView(button);
             int row = i/2;
@@ -121,3 +147,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+//TODO enable click to jump into GenerateListActivity, pass in file name through intent
+//TODO if file doesn't exist - create one
+//TODO otherwise - overwrite original file
+//TODO long hold to bring up delete, share, and others if needed
+

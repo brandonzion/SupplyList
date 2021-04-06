@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +32,8 @@ import java.io.BufferedReader;
 
 public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
-    private int fileIndex = 0;
-
+    private int fileIndex;
+    File[] files;
     private ArrayList<ItemDisplay> mList;
 
     private RecyclerView mRecyclerView;
@@ -50,6 +51,7 @@ public class GenerateListActivity extends AppCompatActivity {
         listTitle = findViewById(R.id.listTitle);
         createList();
         buildRecyclerView();
+
 
         //TODO create a blank file with index name
         //TODO fill it with current data
@@ -82,14 +84,21 @@ public class GenerateListActivity extends AppCompatActivity {
     public void save(View v) {
         //TODO when save, overwrite existing file and close it
         //TODO once saved, go back to home automatically
+        File directory;
+        directory = getFilesDir();
+        files = directory.listFiles();
+        fileIndex = files.length;
         mFileName = "list" + fileIndex + ".dat";
         FileOutputStream fos = null;
         try {
+
             fos = openFileOutput(mFileName, MODE_PRIVATE);
+            String textTitle = listTitle.getText().toString() + "\n";
+            fos.write(textTitle.getBytes());
             for(int i = 0; i < mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
-                String text = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
-                fos.write(text.getBytes());
+                String textData = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
+                fos.write(textData.getBytes());
             }
             Toast.makeText(this, "Saved to " + getFilesDir() + "/" + mFileName,
                     Toast.LENGTH_LONG).show();
