@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,9 +33,9 @@ import java.io.BufferedReader;
 
 public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
-    private int fileIndex;
     File[] files;
     private ArrayList<ItemDisplay> mList;
+    File directory;
 
     private RecyclerView mRecyclerView;
     private EditText listTitle;
@@ -49,6 +50,18 @@ public class GenerateListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generate_list);
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         listTitle = findViewById(R.id.listTitle);
+
+        Intent intent = getIntent();
+        String inputFile = intent.getSerializableExtra("currentFile").toString();
+        mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
+        if("".equals(inputFile)){
+            mFileName = createFile();
+        }
+        else{
+            mFileName = inputFile;
+        }
+
+
         createList();
         buildRecyclerView();
 
@@ -57,13 +70,20 @@ public class GenerateListActivity extends AppCompatActivity {
         //TODO fill it with current data
     }
     public void createList() {
-        Intent mIntent = getIntent();
-        mItems = (ArrayList<Item>) mIntent.getSerializableExtra("items");
         mList = new ArrayList<>();
-        for(int i = 0; i<mItems.size(); i++) {
-            ItemDisplay itemDisplay = new ItemDisplay(mItems.get(i));
-            mList.add(itemDisplay);
+        if(mItems.size() == 0){
+            loadItems(mFileName);
         }
+        else{
+            for(int i = 0; i<mItems.size(); i++) {
+                ItemDisplay itemDisplay = new ItemDisplay(mItems.get(i));
+                mList.add(itemDisplay);
+            }
+        }
+
+
+
+
 
     }
     public void buildRecyclerView() {
@@ -81,26 +101,22 @@ public class GenerateListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void save(View v) {
-        //TODO when save, overwrite existing file and close it
-        //TODO once saved, go back to home automatically
-        File directory;
+    public String createFile(){
         directory = getFilesDir();
         files = directory.listFiles();
-        fileIndex = files.length;
-        mFileName = "list" + fileIndex + ".dat";
+        String fileName = "list" + files.length;
         FileOutputStream fos = null;
         try {
 
-            fos = openFileOutput(mFileName, MODE_PRIVATE);
+            fos = openFileOutput(fileName, MODE_PRIVATE);
             String textTitle = listTitle.getText().toString() + "\n";
             fos.write(textTitle.getBytes());
-            for(int i = 0; i < mItems.size(); i++) {
-                Item currentItem = mItems.get(i);
+            for(int j = 0; j < mItems.size(); j++) {
+                Item currentItem = mItems.get(j);
                 String textData = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
                 fos.write(textData.getBytes());
             }
-            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + mFileName,
+            Toast.makeText(this, "Created " + fileName,
                     Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -115,18 +131,55 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
-        fileIndex ++;
+        return fileName;
     }
-    public void load(View v) {
+
+    public void save(View v) {
+        //TODO once saved, go back to home automatically
+        FileOutputStream fos = null;
+        try {
+
+            fos = openFileOutput(mFileName, MODE_PRIVATE);
+            String textTitle = listTitle.getText().toString() + "\n";
+            fos.write(textTitle.getBytes());
+            for(int i = 0; i < mItems.size(); i++) {
+                Item currentItem = mItems.get(i);
+                String textData = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
+                fos.write(textData.getBytes());
+            }
+            Toast.makeText(this, "Save successful" ,
+                    Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void loadItems(String fileName) {
         FileInputStream fis = null;
         try {
-            fis = openFileInput(mFileName);
+            fis = openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
             String text;
+            String title = br.readLine();
             while ((text = br.readLine()) != null) {
-                sb.append(text).append("\n");
+                String[] splited = text.split("\\s+");
+                int qty = Integer.parseInt(splited[0]);
+                String name = splited[1];
+                String desc = splited[2];
+                Item item = new Item(qty, name, desc);
+                ItemDisplay itemDisplay = new ItemDisplay(item);
+                mList.add(itemDisplay);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

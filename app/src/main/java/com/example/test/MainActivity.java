@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
-    private String filePath;
+    private File[] mFiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
         set.clone(layout);
         File directory;
         directory = getFilesDir();
-        File[] files = directory.listFiles();
+        mFiles = directory.listFiles();
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
-        for(int i = 0; i < 6 && i < files.length; i++){
+        for(int i = 0; i < 6 && i < mFiles.length; i++){
             Button button = new Button(this);
 
             // Open file and read title, and list
             FileInputStream fis = null;
             try {
-                fis = openFileInput(files[i].getName());
+                fis = openFileInput(mFiles[i].getName());
                 InputStreamReader isr = new InputStreamReader(fis);
                 BufferedReader br = new BufferedReader(isr);
                 StringBuilder sb = new StringBuilder();
@@ -75,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
             set.constrainHeight(button.getId(), listButtonHeight);
             set.constrainWidth(button.getId(), listButtonWidth);
             set.applyTo(layout);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<ItemDisplay> placeHolderList = new ArrayList<>();
+                    int i = view.getId() - 100;
+                    Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
+                    intent.putExtra("items", placeHolderList);
+                    intent.putExtra("currentFile", mFiles[i].getName());
+                    MainActivity.this.startActivity(intent);
+                }
+            });
         }
 
 
@@ -108,18 +120,6 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
 
-    private File[] searchListData(){
-        filePath = "list0.dat";
-        File directory;
-        if (filePath.isEmpty()) {
-            directory = getFilesDir();
-        }
-        else {
-            directory = getDir(filePath, MODE_PRIVATE);
-        }
-        File[] files = directory.listFiles();
-        return files;
-    }
 
     public void load(String fileName) {
         FileInputStream fis = null;
@@ -148,8 +148,9 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//TODO enable click to jump into GenerateListActivity, pass in file name through intent
-//TODO if file doesn't exist - create one
-//TODO otherwise - overwrite original file
+//TODO merge itemdisplay and item
+//TODO figure out how to add in title ex.) send seperately or make a new item list that holds items and title
+//TODO fix edit save (passing in file name to save)
+//TODO clean up code (fix variable names)
 //TODO long hold to bring up delete, share, and others if needed
 
