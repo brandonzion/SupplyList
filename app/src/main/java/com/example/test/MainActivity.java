@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ArrayList<ItemDisplay> placeHolderList = new ArrayList<>();
+                    ArrayList<Item> placeHolderList = new ArrayList<>();
                     int i = view.getId() - 100;
                     Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
                     intent.putExtra("items", placeHolderList);
@@ -148,9 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//TODO merge itemdisplay and item
 //TODO figure out how to add in title ex.) send seperately or make a new item list that holds items and title
 //TODO fix edit save (passing in file name to save)
-//TODO clean up code (fix variable names)
 //TODO long hold to bring up delete, share, and others if needed
 

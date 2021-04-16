@@ -15,10 +15,9 @@ import java.util.ArrayList;
 
 public class EditActivity extends AppCompatActivity {
 
-    private ArrayList<ItemDisplay> mItemDisplayList;
     private ArrayList<Item> mItemList;
     private int mPosition;
-    private ItemDisplay mItemDisplay;
+    private Item mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +28,9 @@ public class EditActivity extends AppCompatActivity {
 
         //String mTitle = mIntent.getStringExtra("name");
         //String mBrand = mIntent.getStringExtra("brand");
-        mItemDisplayList = (ArrayList<ItemDisplay>) mIntent.getSerializableExtra("list");
+        mItemList = (ArrayList<Item>) mIntent.getSerializableExtra("list");
         mPosition = (int) mIntent.getSerializableExtra("position");
-        mItemDisplay = mItemDisplayList.get(mPosition);
+        mItem = mItemList.get(mPosition);
         mItemList = new ArrayList<>();
 
 
@@ -48,13 +47,13 @@ public class EditActivity extends AppCompatActivity {
         EditText mBrandView = findViewById(R.id.itemBrand);
         TextView mLinkView = findViewById(R.id.itemLink);
         ImageView mImageView = findViewById(R.id.itemImage);
-        String stringQty = Integer.toString(mItemDisplay.getQty());
+        String stringQty = Integer.toString(mItem.getQty());
 
-        mNameView.setText(mItemDisplay.getName());
+        mNameView.setText(mItem.getName());
         mQtyView.setText(stringQty);
         mLinkView.setText("http://www.google.com");
         mPriceView.setText("test");
-        mBrandView.setText(mItemDisplay.getDesc());
+        mBrandView.setText(mItem.getDesc());
 
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -70,15 +69,15 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String newName = mNameView.getText().toString();
-                mItemDisplay.mItem.setName(newName);
+                mItem.setName(newName);
                 int newQty = Integer.parseInt(mQtyView.getText().toString());
-                mItemDisplay.mItem.setQty(newQty);
+                mItem.setQty(newQty);
                 String newDesc = mBrandView.getText().toString();
-                mItemDisplay.mItem.setDesc(newDesc);
+                mItem.setDesc(newDesc);
 
 
-                for(int i = 0; i<mItemDisplayList.size(); i++) {
-                    Item item = mItemDisplayList.get(i).mItem;
+                for(int i = 0; i<mItemList.size(); i++) {
+                    Item item = mItemList.get(i);
                     mItemList.add(item);
                 }
                 Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);

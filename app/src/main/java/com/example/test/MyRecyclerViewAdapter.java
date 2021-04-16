@@ -23,7 +23,7 @@ import static android.widget.TextView.*;
 
   public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
-    private ArrayList<ItemDisplay> mList;
+    private ArrayList<Item> mList;
     private ItemTouchHelper mTouchHelper;
     final int SHOW_MENU = 1;
     final int HIDE_MENU = 2;
@@ -107,7 +107,7 @@ import static android.widget.TextView.*;
             mDeleteButton = view.findViewById(R.id.deleteButton);
         }
     }
-    public MyRecyclerViewAdapter(Context context, ArrayList<ItemDisplay> list) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list) {
         mContext = context;
         mList = list;
     }
@@ -127,18 +127,18 @@ import static android.widget.TextView.*;
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof MyRecyclerViewHolder){
-            ItemDisplay currentItem = mList.get(position);
+            Item currentItem = mList.get(position);
             ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
             ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
             ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
             ((MyRecyclerViewHolder)holder).mSeemoreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ItemDisplay mItem = mList.get(position);
+                    Item item = mList.get(position);
                     Intent mIntent = new Intent(mContext, GenerateSeemoreActivity.class);
 
-                    String name = mItem.getQty() + " " + mItem.getName();
-                    String brand = mItem.getDesc();
+                    String name = item.getQty() + " " + item.getName();
+                    String brand = item.getDesc();
 
                     mIntent.putExtra("name", name);
                     mIntent.putExtra("brand", brand);
@@ -158,7 +158,7 @@ import static android.widget.TextView.*;
             ((MenuViewHolder)holder).mEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ItemDisplay mItemDisplay = mList.get(position);
+                    Item item = mList.get(position);
                     Intent mIntent = new Intent(mContext, EditActivity.class);
 
                     //String name = mItemDisplay.getQty() + " " + mItemDisplay.getName();
@@ -181,7 +181,7 @@ import static android.widget.TextView.*;
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        ItemDisplay fromItem = mList.get(fromPosition);
+        Item fromItem = mList.get(fromPosition);
         mList.remove(fromItem);
         mList.add(toPosition, fromItem);
         notifyItemMoved(fromPosition, toPosition);
@@ -228,7 +228,7 @@ import static android.widget.TextView.*;
         notifyItemRemoved(position);
     }
 
-    public ArrayList<ItemDisplay> getData() {
+    public ArrayList<Item> getData() {
         return mList;
     }
 

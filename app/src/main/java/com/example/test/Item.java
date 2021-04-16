@@ -9,11 +9,22 @@ public class Item implements Serializable{
     private int mQty;
     private String mName;
     private String mDesc;
+    Boolean mShowMenu;
     public Item(int qty, String name, String desc) {
         mQty = qty;
         mName = name;
         mDesc = desc;
+        mShowMenu = false;
     }
+
+    public void setShowMenu(boolean ifShow){
+        mShowMenu = ifShow;
+    }
+
+    public Boolean isShowMenu(){
+        return mShowMenu;
+    }
+
     public int getQty() {
         return mQty;
     }

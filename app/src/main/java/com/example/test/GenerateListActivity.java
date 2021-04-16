@@ -33,23 +33,23 @@ import java.io.BufferedReader;
 
 public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
-    File[] files;
-    private ArrayList<ItemDisplay> mList;
-    File directory;
+    File[] mFiles;
+    private ArrayList<Item> mList;
+    File mDirectory;
 
     private RecyclerView mRecyclerView;
-    private EditText listTitle;
+    private EditText mListTitle;
     private  ArrayList<Item> mItems;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    CoordinatorLayout coordinatorLayout;
+    CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_list);
-        coordinatorLayout = findViewById(R.id.coordinatorLayout);
-        listTitle = findViewById(R.id.listTitle);
+        mCoordinatorLayout = findViewById(R.id.coordinatorLayout);
+        mListTitle = findViewById(R.id.listTitle);
 
         Intent intent = getIntent();
         String inputFile = intent.getSerializableExtra("currentFile").toString();
@@ -76,8 +76,7 @@ public class GenerateListActivity extends AppCompatActivity {
         }
         else{
             for(int i = 0; i<mItems.size(); i++) {
-                ItemDisplay itemDisplay = new ItemDisplay(mItems.get(i));
-                mList.add(itemDisplay);
+                mList.add(mItems.get(i));
             }
         }
 
@@ -102,14 +101,14 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 
     public String createFile(){
-        directory = getFilesDir();
-        files = directory.listFiles();
-        String fileName = "list" + files.length;
+        mDirectory = getFilesDir();
+        mFiles = mDirectory.listFiles();
+        String fileName = "list" + mFiles.length;
         FileOutputStream fos = null;
         try {
 
             fos = openFileOutput(fileName, MODE_PRIVATE);
-            String textTitle = listTitle.getText().toString() + "\n";
+            String textTitle = mListTitle.getText().toString() + "\n";
             fos.write(textTitle.getBytes());
             for(int j = 0; j < mItems.size(); j++) {
                 Item currentItem = mItems.get(j);
@@ -140,7 +139,7 @@ public class GenerateListActivity extends AppCompatActivity {
         try {
 
             fos = openFileOutput(mFileName, MODE_PRIVATE);
-            String textTitle = listTitle.getText().toString() + "\n";
+            String textTitle = mListTitle.getText().toString() + "\n";
             fos.write(textTitle.getBytes());
             for(int i = 0; i < mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
@@ -178,8 +177,7 @@ public class GenerateListActivity extends AppCompatActivity {
                 String name = splited[1];
                 String desc = splited[2];
                 Item item = new Item(qty, name, desc);
-                ItemDisplay itemDisplay = new ItemDisplay(item);
-                mList.add(itemDisplay);
+                mList.add(item);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
