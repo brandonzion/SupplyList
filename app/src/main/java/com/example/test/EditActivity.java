@@ -15,9 +15,10 @@ import java.util.ArrayList;
 
 public class EditActivity extends AppCompatActivity {
 
-    private ArrayList<Item> mItemList;
+    private ArrayList<Item> mItemList = new ArrayList<>();;
     private int mPosition;
     private Item mItem;
+    private String mFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +29,11 @@ public class EditActivity extends AppCompatActivity {
 
         //String mTitle = mIntent.getStringExtra("name");
         //String mBrand = mIntent.getStringExtra("brand");
+        mFileName = (String) mIntent.getSerializableExtra("currentFile");
         mItemList = (ArrayList<Item>) mIntent.getSerializableExtra("list");
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
-        mItemList = new ArrayList<>();
+
 
 
 
@@ -68,6 +70,8 @@ public class EditActivity extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<Item> items = new ArrayList<>();
+
                 String newName = mNameView.getText().toString();
                 mItem.setName(newName);
                 int newQty = Integer.parseInt(mQtyView.getText().toString());
@@ -78,10 +82,11 @@ public class EditActivity extends AppCompatActivity {
 
                 for(int i = 0; i<mItemList.size(); i++) {
                     Item item = mItemList.get(i);
-                    mItemList.add(item);
+                    items.add(item);
                 }
                 Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
-                editToItemIntent.putExtra("items", mItemList);
+                editToItemIntent.putExtra("items", items);
+                editToItemIntent.putExtra("currentFile", mFileName);
                  EditActivity.this.startActivity(editToItemIntent);
             }
         });

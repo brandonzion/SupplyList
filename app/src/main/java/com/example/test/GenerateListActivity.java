@@ -36,7 +36,7 @@ public class GenerateListActivity extends AppCompatActivity {
     File[] mFiles;
     private ArrayList<Item> mList;
     File mDirectory;
-
+    private String mSeparator = "@";
     private RecyclerView mRecyclerView;
     private EditText mListTitle;
     private  ArrayList<Item> mItems;
@@ -54,6 +54,7 @@ public class GenerateListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String inputFile = intent.getSerializableExtra("currentFile").toString();
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
+
         if("".equals(inputFile)){
             mFileName = createFile();
         }
@@ -66,8 +67,6 @@ public class GenerateListActivity extends AppCompatActivity {
         buildRecyclerView();
 
 
-        //TODO create a blank file with index name
-        //TODO fill it with current data
     }
     public void createList() {
         mList = new ArrayList<>();
@@ -79,17 +78,12 @@ public class GenerateListActivity extends AppCompatActivity {
                 mList.add(mItems.get(i));
             }
         }
-
-
-
-
-
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MyRecyclerViewAdapter(this, mList);
+        mAdapter = new MyRecyclerViewAdapter(this, mList, mFileName);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
@@ -112,7 +106,7 @@ public class GenerateListActivity extends AppCompatActivity {
             fos.write(textTitle.getBytes());
             for(int j = 0; j < mItems.size(); j++) {
                 Item currentItem = mItems.get(j);
-                String textData = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
+                String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
                 fos.write(textData.getBytes());
             }
             Toast.makeText(this, "Created " + fileName,
@@ -136,6 +130,7 @@ public class GenerateListActivity extends AppCompatActivity {
     public void save(View v) {
         //TODO once saved, go back to home automatically
         FileOutputStream fos = null;
+
         try {
 
             fos = openFileOutput(mFileName, MODE_PRIVATE);
@@ -143,7 +138,7 @@ public class GenerateListActivity extends AppCompatActivity {
             fos.write(textTitle.getBytes());
             for(int i = 0; i < mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
-                String textData = currentItem.getQty() + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
+                String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
                 fos.write(textData.getBytes());
             }
             Toast.makeText(this, "Save successful" ,
@@ -171,8 +166,9 @@ public class GenerateListActivity extends AppCompatActivity {
             StringBuilder sb = new StringBuilder();
             String text;
             String title = br.readLine();
+            mListTitle.setText(title);
             while ((text = br.readLine()) != null) {
-                String[] splited = text.split("\\s+");
+                String[] splited = text.split("@");
                 int qty = Integer.parseInt(splited[0]);
                 String name = splited[1];
                 String desc = splited[2];
@@ -202,9 +198,5 @@ public class GenerateListActivity extends AppCompatActivity {
 
 
 //TODO when delete, add to garbage can (be able to recover it)
-//TODO save list on home screen when photo is taken
-//TODO display title in preview of home screen
-//TODO make home button
-//TODO provide option to name save file, otherwise use default
 
 

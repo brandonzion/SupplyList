@@ -25,6 +25,7 @@ import static android.widget.TextView.*;
         implements ItemTouchHelperAdapter {
     private ArrayList<Item> mList;
     private ItemTouchHelper mTouchHelper;
+    private String mFileName;
     final int SHOW_MENU = 1;
     final int HIDE_MENU = 2;
     Context mContext;
@@ -107,9 +108,10 @@ import static android.widget.TextView.*;
             mDeleteButton = view.findViewById(R.id.deleteButton);
         }
     }
-    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list, String currentFile) {
         mContext = context;
         mList = list;
+        mFileName = currentFile;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -160,14 +162,9 @@ import static android.widget.TextView.*;
                 public void onClick(View view) {
                     Item item = mList.get(position);
                     Intent mIntent = new Intent(mContext, EditActivity.class);
-
-                    //String name = mItemDisplay.getQty() + " " + mItemDisplay.getName();
-                    //String brand = mItemDisplay.getDesc();
-
-                    //mIntent.putExtra("name", name);
-                    //mIntent.putExtra("brand", brand);
                     mIntent.putExtra("list", mList);
                     mIntent.putExtra("position", position);
+                    mIntent.putExtra("currentFile", mFileName);
 
                     mContext.startActivity(mIntent);
                 }

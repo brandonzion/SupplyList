@@ -90,13 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-        //search for any existing files containing list data
-        //make a preview for each file
-        //preview should show title and a few items
-     
         configureAddButton();
-        //configureShowButton();
     }
 
     private void configureAddButton() {
@@ -108,16 +102,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*private void configureShowButton() {
-        Button showButton = findViewById(R.id.showButton);
-        showButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, GenerateListActivity.class));
-            }
-        });
-    }*/
 
 
 
@@ -148,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//TODO figure out how to add in title ex.) send seperately or make a new item list that holds items and title
 //TODO fix edit save (passing in file name to save)
+//TODO fix desc error when load
 //TODO long hold to bring up delete, share, and others if needed
 
