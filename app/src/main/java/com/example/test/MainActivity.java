@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,6 +20,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
         for(int i = 0; i < 6 && i < mFiles.length; i++){
+            String currentFile = mFiles[i].getName();
             Button button = new Button(this);
 
             // Open file and read title, and list
@@ -76,23 +81,48 @@ public class MainActivity extends AppCompatActivity {
             set.constrainWidth(button.getId(), listButtonWidth);
             set.applyTo(layout);
 
-            button.setOnClickListener(new View.OnClickListener() {
+            //On long click, open popup
+            registerForContextMenu(button);
+
+            //On Short Click, open list
+            button.setOnClickListener(new View.OnClickListener(){
+                ArrayList<Item> placeholderList = new ArrayList<>();
+
                 @Override
                 public void onClick(View view) {
-                    ArrayList<Item> placeHolderList = new ArrayList<>();
-                    int i = view.getId() - 100;
                     Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
-                    intent.putExtra("items", placeHolderList);
-                    intent.putExtra("currentFile", mFiles[i].getName());
+                    intent.putExtra("items", placeholderList);
+                    intent.putExtra("currentFile", currentFile);
                     MainActivity.this.startActivity(intent);
                 }
             });
+
         }
 
 
         configureAddButton();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.popupmenu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+                Toast.makeText(this, "Option 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.share:
+                Toast.makeText(this, "Option 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
     private void configureAddButton() {
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//TODO fix edit save (passing in file name to save)
-//TODO fix desc error when load
-//TODO long hold to bring up delete, share, and others if needed
+//TODO add functions to context menu
+//TODO delete file and ask for confirmation
+//TODO figure out how to share files
+//TODO remove tool bar at top of screen
+
 

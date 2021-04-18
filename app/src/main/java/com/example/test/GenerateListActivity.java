@@ -128,7 +128,6 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 
     public void save(View v) {
-        //TODO once saved, go back to home automatically
         FileOutputStream fos = null;
 
         try {
