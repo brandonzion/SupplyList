@@ -166,5 +166,11 @@ public class MainActivity extends AppCompatActivity {
 //TODO delete file and ask for confirmation
 //TODO figure out how to share files
 //TODO remove tool bar at top of screen
+//TODO upload file support format pdf jpg txt
+//TODO how to add a test
+//TODO do not show keyboard automatically for edit view
+//TODO save automatically when exit view
+//TODO remove home button and save button
+//TODO share through email, upload to google drive, message
 
 
