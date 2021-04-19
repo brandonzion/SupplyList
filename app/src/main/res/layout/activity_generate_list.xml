@@ -28,16 +28,6 @@ tools:context=".MainActivity">
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recyclerView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:onClick="save"
-            android:text="save" />
 
         <Button
             android:id="@+id/homeButton"
@@ -47,7 +37,7 @@ tools:context=".MainActivity">
             android:layout_alignParentStart="true"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:onClick="returnHome"
+            android:onClick="save"
             android:text="Home" />
 
 

@@ -155,6 +155,9 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
+
+        Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
+        GenerateListActivity.this.startActivity(intent);
     }
     public void loadItems(String fileName) {
         FileInputStream fis = null;
@@ -187,11 +190,6 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    public void returnHome(View v) {
-        Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
-        GenerateListActivity.this.startActivity(intent);
     }
 }
 
