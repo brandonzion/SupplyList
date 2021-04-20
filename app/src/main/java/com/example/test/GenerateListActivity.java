@@ -1,4 +1,5 @@
 package com.example.test;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.telephony.mbms.MbmsErrors;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,7 +37,6 @@ import java.io.BufferedReader;
 public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
     File[] mFiles;
-    private ArrayList<Item> mList;
     File mDirectory;
     private String mSeparator = "@";
     private RecyclerView mRecyclerView;
@@ -50,6 +52,8 @@ public class GenerateListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generate_list);
         mCoordinatorLayout = findViewById(R.id.coordinatorLayout);
         mListTitle = findViewById(R.id.listTitle);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Intent intent = getIntent();
         String inputFile = intent.getSerializableExtra("currentFile").toString();
@@ -69,21 +73,15 @@ public class GenerateListActivity extends AppCompatActivity {
 
     }
     public void createList() {
-        mList = new ArrayList<>();
         if(mItems.size() == 0){
             loadItems(mFileName);
-        }
-        else{
-            for(int i = 0; i<mItems.size(); i++) {
-                mList.add(mItems.get(i));
-            }
         }
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MyRecyclerViewAdapter(this, mList, mFileName);
+        mAdapter = new MyRecyclerViewAdapter(this, mItems, mFileName);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
@@ -127,7 +125,7 @@ public class GenerateListActivity extends AppCompatActivity {
         return fileName;
     }
 
-    public void save(View v) {
+    public void save() {
         FileOutputStream fos = null;
 
         try {
@@ -140,8 +138,6 @@ public class GenerateListActivity extends AppCompatActivity {
                 String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
                 fos.write(textData.getBytes());
             }
-            Toast.makeText(this, "Save successful" ,
-                    Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -155,10 +151,10 @@ public class GenerateListActivity extends AppCompatActivity {
                 }
             }
         }
-
-        Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
-        GenerateListActivity.this.startActivity(intent);
     }
+
+
+
     public void loadItems(String fileName) {
         FileInputStream fis = null;
         try {
@@ -175,7 +171,7 @@ public class GenerateListActivity extends AppCompatActivity {
                 String name = splited[1];
                 String desc = splited[2];
                 Item item = new Item(qty, name, desc);
-                mList.add(item);
+                mItems.add(item);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -191,9 +187,22 @@ public class GenerateListActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onPause() {
+        // call the superclass method first
+        super.onPause();
+        save();
+    }
+
+    @Override
+    protected void onStop() {
+        // call the superclass method first
+        super.onStop();
+        save();
+    }
 }
 
 
-//TODO when delete, add to garbage can (be able to recover it)
 
 

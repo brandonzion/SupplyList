@@ -38,7 +38,6 @@ public class EditActivity extends AppCompatActivity {
 
 
         displayEditView();
-        configureSaveButton();
     }
 
     public void displayEditView(){
@@ -60,35 +59,36 @@ public class EditActivity extends AppCompatActivity {
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void configureSaveButton(){
+    private void save(){
         EditText mNameView = findViewById(R.id.itemName);
         EditText mQtyView = findViewById(R.id.itemQty);
         EditText mPriceView = findViewById(R.id.itemPrice);
         EditText mBrandView = findViewById(R.id.itemBrand);
-        Button mSaveButton = findViewById(R.id.saveButton);
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
 
-                String newName = mNameView.getText().toString();
-                mItem.setName(newName);
-                int newQty = Integer.parseInt(mQtyView.getText().toString());
-                mItem.setQty(newQty);
-                String newDesc = mBrandView.getText().toString();
-                mItem.setDesc(newDesc);
+        String newName = mNameView.getText().toString();
+        mItem.setName(newName);
+        int newQty = Integer.parseInt(mQtyView.getText().toString());
+        mItem.setQty(newQty);
+        String newDesc = mBrandView.getText().toString();
+        mItem.setDesc(newDesc);
 
 
-                for(int i = 0; i<mItemList.size(); i++) {
-                    Item item = mItemList.get(i);
-                    items.add(item);
-                }
-                Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
-                editToItemIntent.putExtra("items", items);
-                editToItemIntent.putExtra("currentFile", mFileName);
-                 EditActivity.this.startActivity(editToItemIntent);
-            }
-        });
+        for(int i = 0; i<mItemList.size(); i++) {
+            Item item = mItemList.get(i);
+            items.add(item);
+        }
+        Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
+        editToItemIntent.putExtra("items", items);
+        editToItemIntent.putExtra("currentFile", mFileName);
+        EditActivity.this.startActivity(editToItemIntent);
+    }
+
+    @Override
+    protected void onStop() {
+        // call the superclass method first
+        super.onStop();
+        save();
     }
 }

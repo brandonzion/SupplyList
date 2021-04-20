@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mFiles = directory.listFiles();
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
-        for(int i = 0; i < 6 && i < mFiles.length; i++){
+        for(int i = 0; i < 6 && i < mFiles.length; i++) {
             String currentFile = mFiles[i].getName();
             Button button = new Button(this);
 
@@ -160,7 +160,48 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    private void refresh(){
+        for(int i = 0; i < 6 && i < mFiles.length; i++) {
+            String currentFile = mFiles[i].getName();
+            Button button = findViewById(i + 100);
+            // Open file and read title, and list
+            FileInputStream fis = null;
+            try {
+                fis = openFileInput(mFiles[i].getName());
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String text;
+
+                text = br.readLine();
+
+                button.setText(text);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 }
+
+
 
 //TODO add functions to context menu
 //TODO delete file and ask for confirmation
@@ -168,9 +209,8 @@ public class MainActivity extends AppCompatActivity {
 //TODO remove tool bar at top of screen
 //TODO upload file support format pdf jpg txt
 //TODO how to add a test
-//TODO do not show keyboard automatically for edit view
-//TODO save automatically when exit view
-//TODO remove home button and save button
 //TODO share through email, upload to google drive, message
-
+//TODO fix title bug when exit edit activity
+//TODO when coming out of edit, close menu view
+//TODO how to manage life cycle of activities/views
 
