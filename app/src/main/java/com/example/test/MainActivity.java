@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
-                Toast.makeText(this, "Option 1 selected", Toast.LENGTH_SHORT).show();
+                //deleteFile("list" + );
+                Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.share:
                 Toast.makeText(this, "Option 2 selected", Toast.LENGTH_SHORT).show();
@@ -203,14 +204,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//TODO add functions to context menu
 //TODO delete file and ask for confirmation
 //TODO figure out how to share files
-//TODO remove tool bar at top of screen
 //TODO upload file support format pdf jpg txt
 //TODO how to add a test
 //TODO share through email, upload to google drive, message
-//TODO fix title bug when exit edit activity
-//TODO when coming out of edit, close menu view
-//TODO how to manage life cycle of activities/views
+//TODO have menu close when exit edit activity
 

@@ -11,6 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class EditActivity extends AppCompatActivity {
@@ -19,6 +25,9 @@ public class EditActivity extends AppCompatActivity {
     private int mPosition;
     private Item mItem;
     private String mFileName;
+    private String mTitle;
+    private String mSeparator = "@";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +43,27 @@ public class EditActivity extends AppCompatActivity {
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
 
-
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(mFileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String title = br.readLine();
+            mTitle = title;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 
         displayEditView();
@@ -75,20 +104,45 @@ public class EditActivity extends AppCompatActivity {
         mItem.setDesc(newDesc);
 
 
-        for(int i = 0; i<mItemList.size(); i++) {
-            Item item = mItemList.get(i);
-            items.add(item);
+        FileOutputStream fos = null;
+
+        try {
+
+            fos = openFileOutput(mFileName, MODE_PRIVATE);
+            String textTitle = mTitle + "\n";
+            fos.write(textTitle.getBytes());
+            for(int i = 0; i < mItemList.size(); i++) {
+                Item currentItem = mItemList.get(i);
+                String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
+                fos.write(textData.getBytes());
+                currentItem.setShowMenu(false);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        Intent editToItemIntent = new Intent(EditActivity.this, GenerateListActivity.class);
-        editToItemIntent.putExtra("items", items);
-        editToItemIntent.putExtra("currentFile", mFileName);
-        EditActivity.this.startActivity(editToItemIntent);
     }
 
+    @Override
+    protected void onPause() {
+        // call the superclass method first
+        super.onPause();
+        save();
+    }
     @Override
     protected void onStop() {
         // call the superclass method first
         super.onStop();
         save();
     }
+
 }

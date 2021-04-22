@@ -157,6 +157,7 @@ public class GenerateListActivity extends AppCompatActivity {
 
     public void loadItems(String fileName) {
         FileInputStream fis = null;
+        mItems.clear();
         try {
             fis = openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -171,6 +172,7 @@ public class GenerateListActivity extends AppCompatActivity {
                 String name = splited[1];
                 String desc = splited[2];
                 Item item = new Item(qty, name, desc);
+
                 mItems.add(item);
             }
         } catch (FileNotFoundException e) {
@@ -200,6 +202,13 @@ public class GenerateListActivity extends AppCompatActivity {
         // call the superclass method first
         super.onStop();
         save();
+    }
+
+    @Override
+    protected void onResume() {
+        // call the superclass method first
+        super.onResume();
+        loadItems(mFileName); 
     }
 }
 
