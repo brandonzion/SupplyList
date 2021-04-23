@@ -27,6 +27,7 @@ public class EditActivity extends AppCompatActivity {
     private String mFileName;
     private String mTitle;
     private String mSeparator = "@";
+    private DataManager mDataManager = new DataManager();
 
 
     @Override
@@ -43,27 +44,7 @@ public class EditActivity extends AppCompatActivity {
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
 
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(mFileName);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String title = br.readLine();
-            mTitle = title;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        mDataManager.read(this, mFileName);
 
 
         displayEditView();

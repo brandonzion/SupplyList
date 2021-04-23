@@ -109,14 +109,14 @@ public class GenerateListActivity extends AppCompatActivity {
     protected void onStop() {
         // call the superclass method first
         super.onStop();
-        save();
+        mDataManager.write(this, mFileName, mItemData);
     }
 
     @Override
     protected void onResume() {
         // call the superclass method first
         super.onResume();
-        loadItems(mFileName); 
+        mDataManager.read(this, mFileName);
     }
 }
 

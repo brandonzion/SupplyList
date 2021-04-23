@@ -18,7 +18,7 @@ public class ItemData {
         return mItems;
     }
 
-    public Item getItem(int pos{
+    public Item getItem(int pos){
         Item item = mItems.get(pos);
         return item;
     }
