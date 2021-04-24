@@ -27,6 +27,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
     private File[] mFiles;
+    private DataManager mDataManager = new DataManager();
+    private ItemData mItemData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +47,8 @@ public class MainActivity extends AppCompatActivity {
             Button button = new Button(this);
 
             // Open file and read title, and list
-            FileInputStream fis = null;
-            try {
-                fis = openFileInput(mFiles[i].getName());
-                InputStreamReader isr = new InputStreamReader(fis);
-                BufferedReader br = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String text;
-
-                text = br.readLine();
-
-                button.setText(text);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+           String textTitle = mDataManager.read(this, currentFile).getTitle();
+           button.setText(textTitle);
 
             button.setId(i + 100);           // <-- Important
             layout.addView(button);
@@ -134,34 +113,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-    public void load(String fileName) {
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(fileName);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
-            while ((text = br.readLine()) != null) {
-                sb.append(text).append("\n");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -210,4 +161,6 @@ public class MainActivity extends AppCompatActivity {
 //TODO how to add a test
 //TODO share through email, upload to google drive, message
 //TODO have menu close when exit edit activity
+//TODO add back button and done button on menu bar
+//TODO only show done button when typing
 

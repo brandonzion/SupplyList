@@ -62,6 +62,9 @@ public class GenerateListActivity extends AppCompatActivity {
         String inputFile = intent.getSerializableExtra("currentFile").toString();
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
         mItemData = new ItemData("Untitled", mItems);
+        File directory;
+        directory = getFilesDir();
+        mFiles = directory.listFiles();
 
         if("".equals(inputFile)){
             mFileName = "list" + mFiles.length;

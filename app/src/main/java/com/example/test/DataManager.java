@@ -22,7 +22,7 @@ public class DataManager {
     public ItemData read(Context context, String fileName){
         FileInputStream fis = null;
         String title = new String();
-        ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();  
         try {
             fis = context.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fis);
