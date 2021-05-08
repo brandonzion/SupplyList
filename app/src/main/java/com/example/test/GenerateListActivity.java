@@ -15,6 +15,8 @@ import android.provider.ContactsContract;
 import android.telephony.mbms.MbmsErrors;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -121,6 +123,28 @@ public class GenerateListActivity extends AppCompatActivity {
         super.onResume();
         mDataManager.read(this, mFileName);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menubar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.back:
+            //add the function to perform here
+            return(true);
+        case R.id.about:
+            //add the function to perform here
+            return(true);
+        case R.id.exit:
+            //add the function to perform here
+            return(true);
+    }
+        return(super.onOptionsItemSelected(item));
+    }
+
 }
 
 
