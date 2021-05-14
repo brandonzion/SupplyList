@@ -133,7 +133,8 @@ public class GenerateListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.back:
-            //add the function to perform here
+            Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
+            GenerateListActivity.this.startActivity(intent);
             return(true);
         case R.id.about:
             //add the function to perform here
