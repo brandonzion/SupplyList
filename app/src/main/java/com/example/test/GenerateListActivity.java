@@ -1,4 +1,4 @@
-package com.example.test;
+  package com.example.test;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
@@ -84,7 +84,8 @@ public class GenerateListActivity extends AppCompatActivity {
     }
     public void createList() {
         if(mItems.size() == 0){
-            mDataManager.read(this, mFileName);
+            mItemData = mDataManager.read(this, mFileName);
+            mItems = mItemData.getItems();
         }
     }
     public void buildRecyclerView() {
@@ -103,31 +104,19 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onPause() {
-        // call the superclass method first
-        super.onPause();
-        mDataManager.write(this, mFileName, mItemData);
-    }
-
-    @Override
-    protected void onStop() {
-        // call the superclass method first
-        super.onStop();
-        mDataManager.write(this, mFileName, mItemData);
-    }
 
     @Override
     protected void onResume() {
         // call the superclass method first
         super.onResume();
-        mDataManager.read(this, mFileName);
+        mItemData = mDataManager.read(this, mFileName);
+        mItems = mItemData.getItems();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menubar, menu);
+        getMenuInflater().inflate(R.menu.menumain, menu);
         return true;
     }
     @Override
@@ -135,6 +124,13 @@ public class GenerateListActivity extends AppCompatActivity {
         case R.id.back:
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);
+            String title = mListTitle.getText().toString();
+            mItemData = new ItemData(title, mItems);
+            mDataManager.write(this, mFileName, mItemData);
+            return(true);
+        case R.id.add:
+            int position = mItems.size();
+            insertItem(position);
             return(true);
         case R.id.about:
             //add the function to perform here
@@ -145,6 +141,14 @@ public class GenerateListActivity extends AppCompatActivity {
     }
         return(super.onOptionsItemSelected(item));
     }
+
+    private void insertItem(int pos){
+        mItems.add(pos, new Item(1, "Blank", "this item doesn't have a description yet"));
+        mItemData.setItems(mItems);
+        mAdapter.notifyDataSetChanged();
+        mDataManager.write(this, mFileName, mItemData);
+    }
+
 
 }
 

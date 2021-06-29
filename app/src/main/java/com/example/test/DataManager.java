@@ -65,7 +65,7 @@ public class DataManager {
             fos = context.openFileOutput(fileName, MODE_PRIVATE);
             String textTitle = title + "\n";
             fos.write(textTitle.getBytes());
-            for(int i = 0; i < items.size(); i++) {
+               for(int i = 0; i < items.size(); i++) {
                 Item currentItem = items.get(i);
                 String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
                 fos.write(textData.getBytes());

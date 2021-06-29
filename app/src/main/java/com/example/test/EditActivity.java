@@ -39,15 +39,10 @@ public class EditActivity extends AppCompatActivity {
 
         Intent mIntent = getIntent();
 
-        //String mTitle = mIntent.getStringExtra("name");
-        //String mBrand = mIntent.getStringExtra("brand");
         mFileName = (String) mIntent.getSerializableExtra("currentFile");
         mItemList = (ArrayList<Item>) mIntent.getSerializableExtra("list");
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
-
-        mDataManager.read(this, mFileName);
-
 
         displayEditView();
     }
@@ -85,6 +80,7 @@ public class EditActivity extends AppCompatActivity {
         mItem.setQty(newQty);
         String newDesc = mBrandView.getText().toString();
         mItem.setDesc(newDesc);
+        mTitle = mDataManager.read(this, mFileName).getTitle();
 
 
         FileOutputStream fos = null;
@@ -113,19 +109,6 @@ public class EditActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Override
-    protected void onPause() {
-        // call the superclass method first
-        super.onPause();
-        save();
-    }
-    @Override
-    protected void onStop() {
-        // call the superclass method first
-        super.onStop();
-        save();
     }
 
     @Override
