@@ -63,17 +63,19 @@ public class GenerateListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String inputFile = intent.getSerializableExtra("currentFile").toString();
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
-        mItemData = new ItemData("Untitled", mItems);
+
         File directory;
         directory = getFilesDir();
         mFiles = directory.listFiles();
 
         if("".equals(inputFile)){
             mFileName = "list" + mFiles.length;
+            mItemData = new ItemData("Untitled", mItems);
             mDataManager.write(this, mFileName, mItemData);
         }
         else{
             mFileName = inputFile;
+            String title = mDataManager.read(this, mFileName).getTitle();
         }
 
 
@@ -84,7 +86,10 @@ public class GenerateListActivity extends AppCompatActivity {
     }
     public void createList() {
         if(mItems.size() == 0){
-            mItemData = mDataManager.read(this, mFileName);
+            ArrayList<Item> items = mDataManager.read(this, mFileName).getItems();
+            String title = mDataManager.read(this, mFileName).getTitle();
+            mItemData = new ItemData(title, items);
+            mListTitle.setText(title);
             mItems = mItemData.getItems();
         }
     }

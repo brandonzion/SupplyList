@@ -174,7 +174,5 @@ public class MainActivity extends AppCompatActivity {
 //TODO how to add a test
 //TODO share through email, upload to google drive, message
 //TODO have menu close when exit edit activity
-//TODO add back button and done button on menu bar
 //TODO only show done button when typing
-//TODO add an add item button for GenerateListActivity
 

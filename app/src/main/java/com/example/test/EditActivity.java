@@ -72,8 +72,6 @@ public class EditActivity extends AppCompatActivity {
         EditText mPriceView = findViewById(R.id.itemPrice);
         EditText mBrandView = findViewById(R.id.itemBrand);
 
-        ArrayList<Item> items = new ArrayList<>();
-
         String newName = mNameView.getText().toString();
         mItem.setName(newName);
         int newQty = Integer.parseInt(mQtyView.getText().toString());
@@ -81,7 +79,6 @@ public class EditActivity extends AppCompatActivity {
         String newDesc = mBrandView.getText().toString();
         mItem.setDesc(newDesc);
         mTitle = mDataManager.read(this, mFileName).getTitle();
-
 
         FileOutputStream fos = null;
 
@@ -122,6 +119,9 @@ public class EditActivity extends AppCompatActivity {
         case R.id.back:
             save();
             Intent intent = new Intent(EditActivity.this, GenerateListActivity.class);
+            ArrayList<Item> placeholderItems = new ArrayList<>();
+            intent.putExtra("items", placeholderItems);
+            intent.putExtra("currentFile", mFileName);
             EditActivity.this.startActivity(intent);
             return(true);
         case R.id.about:
