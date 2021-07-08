@@ -223,6 +223,7 @@ import static android.widget.TextView.*;
     public void removeItem(int position) {
         mList.remove(position);
         notifyItemRemoved(position);
+
     }
 
     public ArrayList<Item> getData() {
@@ -234,3 +235,5 @@ import static android.widget.TextView.*;
     }
 
 }
+
+//TODO add a data manager in this file and make remove item write
