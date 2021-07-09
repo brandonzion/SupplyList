@@ -4,12 +4,28 @@ import android.os.Parcelable;
 import android.widget.Button;
 
 import java.io.Serializable;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "item_table")
 public class Item implements Serializable{
-    private int mQty;
+    @PrimaryKey(autoGenerate = true)
+    private int mId;
+
+    @ColumnInfo(name = "itemName")
     private String mName;
+
+    @ColumnInfo(name = "itemQty")
+    private int mQty;
+
+    @ColumnInfo(name = "itemDesc")
     private String mDesc;
+
+    @ColumnInfo(name = "itemShowMenu")
     Boolean mShowMenu;
+
     public Item(int qty, String name, String desc) {
         mQty = qty;
         mName = name;
@@ -38,5 +54,11 @@ public class Item implements Serializable{
     public void setName(String text){mName = text;}
     public void setDesc(String text){mDesc = text;}
 
+    public int getId() {
+        return mId;
+    }
 
+    public void setId(int id) {
+        this.mId = id;
+    }
 }

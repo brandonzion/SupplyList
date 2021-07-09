@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -80,32 +81,10 @@ public class EditActivity extends AppCompatActivity {
         mItem.setDesc(newDesc);
         mTitle = mDataManager.read(this, mFileName).getTitle();
 
-        FileOutputStream fos = null;
-
-        try {
-
-            fos = openFileOutput(mFileName, MODE_PRIVATE);
-            String textTitle = mTitle + "\n";
-            fos.write(textTitle.getBytes());
-            for(int i = 0; i < mItemList.size(); i++) {
-                Item currentItem = mItemList.get(i);
-                String textData = currentItem.getQty() + mSeparator + currentItem.getName() + mSeparator + currentItem.getDesc() + "\n";
-                fos.write(textData.getBytes());
-                currentItem.setShowMenu(false);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        ItemRoomDatabase.getDatabase(getApplicationContext())
+                .itemDao()
+                .update(mItem);
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
     @Override

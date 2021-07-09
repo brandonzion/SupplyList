@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -221,9 +222,13 @@ import static android.widget.TextView.*;
 
 
     public void removeItem(int position) {
+        Item item = mList.get(position);
+        ItemRoomDatabase.getDatabase(mContext)
+                .itemDao()
+                .delete(item);
         mList.remove(position);
         notifyItemRemoved(position);
-
+        Toast.makeText(mContext, "Item Removed", Toast.LENGTH_LONG).show();
     }
 
     public ArrayList<Item> getData() {

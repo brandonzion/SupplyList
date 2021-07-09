@@ -168,12 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//TODO delete file and ask for confirmation
-//TODO figure out how to share files
-//TODO upload file support format pdf jpg txt
-//TODO how to add a test
 //TODO share through email, upload to google drive, message
-//TODO have menu close when exit edit activity
-//TODO only show done button when typing
 //TODO change app to database
+//TODO add an ok button for GenerateListActivity and EditActivity
+//TODO connect data to database 
 

@@ -17,10 +17,10 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
     public abstract ItemDao itemDao();
 
     private static volatile ItemRoomDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
+    private static final int NUMBER_OF_THREADS = 1;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
+//Below is Singleton
     static ItemRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ItemRoomDatabase.class) {

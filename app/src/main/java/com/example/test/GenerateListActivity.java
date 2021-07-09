@@ -36,8 +36,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.util.List;
 
-public class GenerateListActivity extends AppCompatActivity {
+  public class GenerateListActivity extends AppCompatActivity {
     private  String mFileName;
     File[] mFiles;
     File mDirectory;
@@ -86,9 +87,12 @@ public class GenerateListActivity extends AppCompatActivity {
     }
     public void createList() {
         if(mItems.size() == 0){
-            ArrayList<Item> items = mDataManager.read(this, mFileName).getItems();
+            List<Item> items = ItemRoomDatabase
+                    .getDatabase(getApplicationContext())
+                    .itemDao()
+                    .getAll();
             String title = mDataManager.read(this, mFileName).getTitle();
-            mItemData = new ItemData(title, items);
+            mItemData = new ItemData(title, (ArrayList<Item>) items);
             mListTitle.setText(title);
             mItems = mItemData.getItems();
         }
@@ -127,11 +131,9 @@ public class GenerateListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.back:
+
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);
-            String title = mListTitle.getText().toString();
-            mItemData = new ItemData(title, mItems);
-            mDataManager.write(this, mFileName, mItemData);
             return(true);
         case R.id.add:
             int position = mItems.size();
@@ -148,10 +150,14 @@ public class GenerateListActivity extends AppCompatActivity {
     }
 
     private void insertItem(int pos){
-        mItems.add(pos, new Item(1, "Blank", "this item doesn't have a description yet"));
+        Item item = new Item(1, "Blank", "this item doesn't have a description yet");
+        mItems.add(pos, item);
         mItemData.setItems(mItems);
         mAdapter.notifyDataSetChanged();
-        mDataManager.write(this, mFileName, mItemData);
+        ItemRoomDatabase.getDatabase(getApplicationContext())
+                .itemDao()
+                .insert(item);
+        Toast.makeText(getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
     }
 
 
