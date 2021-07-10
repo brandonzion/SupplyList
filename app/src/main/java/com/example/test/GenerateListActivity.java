@@ -72,11 +72,15 @@ import java.util.List;
         if("".equals(inputFile)){
             mFileName = "list" + mFiles.length;
             mItemData = new ItemData("Untitled", mItems);
-            mDataManager.write(this, mFileName, mItemData);
+            ItemRoomDatabase.getDatabase(getApplicationContext())
+                .itemDao()
+                .insert(mItems.get(0));
         }
         else{
             mFileName = inputFile;
-            String title = mDataManager.read(this, mFileName).getTitle();
+            String title = ItemRoomDatabase.getDatabase(getApplicationContext())
+                    .itemDao()
+                    .getTitle();
         }
 
 
@@ -91,7 +95,9 @@ import java.util.List;
                     .getDatabase(getApplicationContext())
                     .itemDao()
                     .getAll();
-            String title = mDataManager.read(this, mFileName).getTitle();
+            String title = ItemRoomDatabase.getDatabase(getApplicationContext())
+                    .itemDao()
+                    .getTitle();
             mItemData = new ItemData(title, (ArrayList<Item>) items);
             mListTitle.setText(title);
             mItems = mItemData.getItems();
@@ -118,11 +124,15 @@ import java.util.List;
     protected void onResume() {
         // call the superclass method first
         super.onResume();
-        mItemData = mDataManager.read(this, mFileName);
-        mItems = mItemData.getItems();
+        List<Item> items = ItemRoomDatabase.getDatabase(getApplicationContext())
+                .itemDao()
+                .getAll();
+        mItemData.setItems((ArrayList<Item>) items);
+        mItems = (ArrayList<Item>) items;
     }
 
-    @Override
+
+      @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menumain, menu);
@@ -150,7 +160,8 @@ import java.util.List;
     }
 
     private void insertItem(int pos){
-        Item item = new Item(1, "Blank", "this item doesn't have a description yet");
+        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", mListTitle.getText().toString());
+
         mItems.add(pos, item);
         mItemData.setItems(mItems);
         mAdapter.notifyDataSetChanged();

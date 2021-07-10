@@ -14,6 +14,9 @@ public class Item implements Serializable{
     @PrimaryKey(autoGenerate = true)
     private int mId;
 
+    @ColumnInfo(name = "listTitle")
+    private String mListTitle;
+
     @ColumnInfo(name = "itemName")
     private String mName;
 
@@ -26,7 +29,8 @@ public class Item implements Serializable{
     @ColumnInfo(name = "itemShowMenu")
     Boolean mShowMenu;
 
-    public Item(int qty, String name, String desc) {
+    public Item(int qty, String name, String desc, String listTitle) {
+        mListTitle = listTitle;
         mQty = qty;
         mName = name;
         mDesc = desc;
@@ -50,9 +54,12 @@ public class Item implements Serializable{
     public String getDesc() {
         return mDesc;
     }
+    public String getListTitle(){return mListTitle;}
     public void setQty(int numb){mQty = numb;};
     public void setName(String text){mName = text;}
     public void setDesc(String text){mDesc = text;}
+    public void setListTitle(String text){mListTitle = text;}
+
 
     public int getId() {
         return mId;

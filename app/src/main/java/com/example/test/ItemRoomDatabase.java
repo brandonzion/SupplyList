@@ -17,7 +17,7 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
     public abstract ItemDao itemDao();
 
     private static volatile ItemRoomDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 1;
+    private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 //Below is Singleton
@@ -27,6 +27,7 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ItemRoomDatabase.class, "item_database")
+                            .allowMainThreadQueries()
                             .build();
                 }
             }

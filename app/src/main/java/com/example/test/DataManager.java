@@ -36,7 +36,7 @@ public class DataManager {
                 int qty = Integer.parseInt(splited[0]);
                 String name = splited[1];
                 String desc = splited[2];
-                Item item = new Item(qty, name, desc);
+                Item item = new Item(qty, name, desc, title);
 
                 items.add(item);
             }

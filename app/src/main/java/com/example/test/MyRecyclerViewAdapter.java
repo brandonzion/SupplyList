@@ -240,5 +240,3 @@ import static android.widget.TextView.*;
     }
 
 }
-
-//TODO add a data manager in this file and make remove item write

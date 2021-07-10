@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 @Dao
 public interface ItemDao {
@@ -29,4 +30,10 @@ public interface ItemDao {
 
     @Update
     void update(Item item);
+
+    @Query("SELECT listTitle FROM item_table")
+    String getTitle();
+
+    @Insert
+    void insertAll(ArrayList<Item> items);
 }
