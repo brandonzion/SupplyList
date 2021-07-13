@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
-    private File[] mFiles;
+    private int mListAmount;
     private ItemData mItemData;
 
     @Override
@@ -36,16 +36,17 @@ public class MainActivity extends AppCompatActivity {
         set.clone(layout);
         File directory;
         directory = getFilesDir();
-        mFiles = directory.listFiles();
         int  listButtonWidth = 500;
         int listButtonHeight = 550;
-        for(int i = 0; i < 6 && i < mFiles.length; i++) {
-            String currentFile = mFiles[i].getName();
+        mListAmount = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                .supplyListDao()
+                .getTitle();
+        for(int i = 0; i < 6 && i < mListAmount; i++) {
             Button button = new Button(this);
 
-            // Open file and read title, and list
-           String textTitle = ItemRoomDatabase.getDatabase(getApplicationContext())
-                   .itemDao()
+            // Open database and read title, and list
+           String textTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                   .supplyListDao()
                    .getTitle();
            button.setText(textTitle);
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
                     intent.putExtra("items", placeholderList);
-                    intent.putExtra("currentFile", currentFile);
+                    intent.putExtra("title", textTitle);
                     MainActivity.this.startActivity(intent);
                 }
             });
@@ -90,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
-                //deleteFile("list" + );
+                //TODO delete button and delete row from database
+                refresh();
                 Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.share:
@@ -109,35 +111,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refresh(){
-        for(int i = 0; i < 6 && i < mFiles.length; i++) {
-            String currentFile = mFiles[i].getName();
+        for(int i = 0; i < 6 && i < mListAmount; i++) {
             Button button = findViewById(i + 100);
-            // Open file and read title, and list
-            FileInputStream fis = null;
-            try {
-                fis = openFileInput(mFiles[i].getName());
-                InputStreamReader isr = new InputStreamReader(fis);
-                BufferedReader br = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String text;
-
-                text = br.readLine();
-
-                button.setText(text);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            // Open database and read title, and list
+            //TODO add list title database here
+            String text;
+            button.setText(text);
         }
     }
 

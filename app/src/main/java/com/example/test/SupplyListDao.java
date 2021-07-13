@@ -12,11 +12,11 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 @Dao
-public interface ItemDao {
+public interface SupplyListDao {
     // allowing the insert of the same word multiple times by passing a
     // conflict resolution strategy
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Item item);
+    void insert(SupplyList list);
 
     @Query("DELETE FROM item_table")
     void deleteAll();
@@ -24,21 +24,18 @@ public interface ItemDao {
     @Query("DELETE FROM item_table WHERE mId = :id")
     void delete(int id);
 
-    @Query("SELECT * FROM item_table ORDER BY itemName ASC")
-    List<Item> getAlphabetizedItemNames();
+    @Query("SELECT * FROM item_table ORDER BY listTitle ASC")
+    List<Item> getAlphabetizedListNames();
 
     @Query("SELECT * FROM item_table")
     List<Item> getAll();
 
-    @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc WHERE mId = :id")
-    void update(int id, int qty, String name, String desc);
+    @Query("UPDATE item_table SET listTitle = :title WHERE mId = :id")
+    void update(int id, String title);
 
-    @Query("UPDATE item_table SET listTitle = :newListTitle WHERE listTitle = :ogListTitle")
-    void updateListTitle(String ogListTitle, String newListTitle);
+    @Query("SELECT listTitle FROM item_table WHERE mId = :id")
+    String getTitle(int id);
 
-    @Query("SELECT listTitle FROM item_table")
-    String getTitle();
-
-    @Insert
-    void insertAll(ArrayList<Item> items);
+    @Query("SELECT mId FROM item_table")
+    ArrayList<Integer> getIdAll();
 }

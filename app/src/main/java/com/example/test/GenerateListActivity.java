@@ -61,23 +61,22 @@ import java.util.List;
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Intent intent = getIntent();
-        String inputFile = intent.getSerializableExtra("currentFile").toString();
+        String title = (String) intent.getSerializableExtra("title");
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
 
         File directory;
         directory = getFilesDir();
         mFiles = directory.listFiles();
 
-        if("".equals(inputFile)){
+        if("".equals(title)){
             mFileName = "list" + mFiles.length;
             mItemData = new ItemData("Untitled", mItems);
             ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
-                .insert(mItems.get(0));
+                .insertAll(mItems);
         }
         else{
-            mFileName = inputFile;
-            String title = ItemRoomDatabase.getDatabase(getApplicationContext())
+            String text = ItemRoomDatabase.getDatabase(getApplicationContext())
                     .itemDao()
                     .getTitle();
             mListTitle.setText(title);
@@ -141,9 +140,12 @@ import java.util.List;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.back:
-            ItemRoomDatabase.getDatabase(getApplicationContext())
-                    .itemDao()
-                    .updateAll(mItems);
+            for(int i = 0; i<mItems.size(); i++) {
+                Item currentItem = mItems.get(i);
+                ItemRoomDatabase.getDatabase(getApplicationContext())
+                        .itemDao()
+                        .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc());
+            }
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);
             return(true);
