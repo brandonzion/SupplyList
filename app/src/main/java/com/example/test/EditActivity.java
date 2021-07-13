@@ -30,7 +30,6 @@ public class EditActivity extends AppCompatActivity {
     private String mFileName;
     private String mTitle;
     private String mSeparator = "@";
-    private DataManager mDataManager = new DataManager();
 
 
     @Override
@@ -79,11 +78,13 @@ public class EditActivity extends AppCompatActivity {
         mItem.setQty(newQty);
         String newDesc = mBrandView.getText().toString();
         mItem.setDesc(newDesc);
-        mTitle = mDataManager.read(this, mFileName).getTitle();
+        mTitle = ItemRoomDatabase.getDatabase(getApplicationContext())
+                .itemDao()
+                .getTitle();
 
         ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
-                .update(mItem);
+                .update(mItem.getId(), mItem.getQty(), mItem.getName(), mItem.getDesc());
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 

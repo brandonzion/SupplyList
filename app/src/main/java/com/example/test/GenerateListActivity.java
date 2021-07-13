@@ -49,7 +49,6 @@ import java.util.List;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     CoordinatorLayout mCoordinatorLayout;
-    private DataManager mDataManager = new DataManager();
     private ItemData mItemData;
 
     @Override
@@ -81,6 +80,7 @@ import java.util.List;
             String title = ItemRoomDatabase.getDatabase(getApplicationContext())
                     .itemDao()
                     .getTitle();
+            mListTitle.setText(title);
         }
 
 
@@ -141,7 +141,9 @@ import java.util.List;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.back:
-
+            ItemRoomDatabase.getDatabase(getApplicationContext())
+                    .itemDao()
+                    .updateAll(mItems);
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);
             return(true);

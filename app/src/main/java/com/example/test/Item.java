@@ -26,9 +26,7 @@ public class Item implements Serializable{
     @ColumnInfo(name = "itemDesc")
     private String mDesc;
 
-    @ColumnInfo(name = "itemShowMenu")
     Boolean mShowMenu;
-
     public Item(int qty, String name, String desc, String listTitle) {
         mListTitle = listTitle;
         mQty = qty;

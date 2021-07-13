@@ -225,7 +225,7 @@ import static android.widget.TextView.*;
         Item item = mList.get(position);
         ItemRoomDatabase.getDatabase(mContext)
                 .itemDao()
-                .delete(item);
+                .delete(item.getId());
         mList.remove(position);
         notifyItemRemoved(position);
         Toast.makeText(mContext, "Item Removed", Toast.LENGTH_LONG).show();

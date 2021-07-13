@@ -25,7 +25,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
     private File[] mFiles;
-    private DataManager mDataManager = new DataManager();
     private ItemData mItemData;
 
     @Override
@@ -45,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
             Button button = new Button(this);
 
             // Open file and read title, and list
-           String textTitle = mDataManager.read(this, currentFile).getTitle();
+           String textTitle = ItemRoomDatabase.getDatabase(getApplicationContext())
+                   .itemDao()
+                   .getTitle();
            button.setText(textTitle);
 
             button.setId(i + 100);           // <-- Important
