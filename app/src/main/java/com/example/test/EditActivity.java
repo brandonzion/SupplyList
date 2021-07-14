@@ -27,7 +27,7 @@ public class EditActivity extends AppCompatActivity {
     private ArrayList<Item> mItemList = new ArrayList<>();;
     private int mPosition;
     private Item mItem;
-    private String mFileName;
+    private String mListTitle;
     private String mTitle;
     private String mSeparator = "@";
 
@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
 
         Intent mIntent = getIntent();
 
-        mFileName = (String) mIntent.getSerializableExtra("currentFile");
+        mListTitle = (String) mIntent.getSerializableExtra("title");
         mItemList = (ArrayList<Item>) mIntent.getSerializableExtra("list");
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
@@ -101,7 +101,7 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent(EditActivity.this, GenerateListActivity.class);
             ArrayList<Item> placeholderItems = new ArrayList<>();
             intent.putExtra("items", placeholderItems);
-            intent.putExtra("currentFile", mFileName);
+            intent.putExtra("title", mListTitle);
             EditActivity.this.startActivity(intent);
             return(true);
         case R.id.about:

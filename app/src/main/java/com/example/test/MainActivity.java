@@ -26,39 +26,41 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
     private int mListAmount;
     private ItemData mItemData;
+    private ArrayList<Integer> mListIds;
+    private ConstraintSet mSet = new ConstraintSet();
+    private int mListButtonWidth;
+    private int mListButtonHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
-        ConstraintSet set = new ConstraintSet();
-        set.clone(layout);
-        File directory;
-        directory = getFilesDir();
-        int  listButtonWidth = 500;
-        int listButtonHeight = 550;
-        mListAmount = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+        mSet.clone(layout);
+        mListButtonWidth = 500;
+        mListButtonHeight = 550;
+        mListIds = (ArrayList<Integer>) SupplyListRoomDatabase.getDatabase(getApplicationContext())
                 .supplyListDao()
-                .getTitle();
+                .getIdAll();
+        mListAmount = mListIds.size();
         for(int i = 0; i < 6 && i < mListAmount; i++) {
             Button button = new Button(this);
 
             // Open database and read title, and list
            String textTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
                    .supplyListDao()
-                   .getTitle();
+                   .getTitle(i);
            button.setText(textTitle);
 
             button.setId(i + 100);           // <-- Important
             layout.addView(button);
             int row = i/2;
             int col = i%2;
-            set.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ listButtonHeight) * row);
-            set.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + listButtonWidth) * col);
-            set.constrainHeight(button.getId(), listButtonHeight);
-            set.constrainWidth(button.getId(), listButtonWidth);
-            set.applyTo(layout);
+            mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ mListButtonHeight) * row);
+            mSet.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + mListButtonWidth) * col);
+            mSet.constrainHeight(button.getId(), mListButtonHeight);
+            mSet.constrainWidth(button.getId(), mListButtonWidth);
+            mSet.applyTo(layout);
 
             //On long click, open popup
             registerForContextMenu(button);
@@ -111,12 +113,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refresh(){
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
+        mSet.clone(layout);
         for(int i = 0; i < 6 && i < mListAmount; i++) {
-            Button button = findViewById(i + 100);
+            mSet.removeFromVerticalChain(i+100);
+            Button button = new Button(this);
             // Open database and read title, and list
-            //TODO add list title database here
             String text;
+            text = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                    .supplyListDao()
+                    .getTitle(i);
             button.setText(text);
+
+            button.setId(i + 100);           // <-- Important
+            layout.addView(button);
+            int row = i/2;
+            int col = i%2;
+            mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ mListButtonHeight) * row);
+            mSet.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + mListButtonWidth) * col);
+            mSet.constrainHeight(button.getId(), mListButtonHeight);
+            mSet.constrainWidth(button.getId(), mListButtonWidth);
+            mSet.applyTo(layout);
+
+            //On long click, open popup
+            registerForContextMenu(button);
+
+            //On Short Click, open list
+            button.setOnClickListener(new View.OnClickListener(){
+                ArrayList<Item> placeholderList = new ArrayList<>();
+
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
+                    intent.putExtra("items", placeholderList);
+                    intent.putExtra("title", text);
+                    MainActivity.this.startActivity(intent);
+                }
+            });
         }
     }
 

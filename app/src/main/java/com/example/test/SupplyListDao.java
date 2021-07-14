@@ -1,5 +1,7 @@
 package com.example.test;
 
+import android.database.Cursor;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Entity;
@@ -18,24 +20,24 @@ public interface SupplyListDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(SupplyList list);
 
-    @Query("DELETE FROM item_table")
+    @Query("DELETE FROM list_table")
     void deleteAll();
 
-    @Query("DELETE FROM item_table WHERE mId = :id")
+    @Query("DELETE FROM list_table WHERE mId = :id")
     void delete(int id);
 
-    @Query("SELECT * FROM item_table ORDER BY listTitle ASC")
-    List<Item> getAlphabetizedListNames();
+    @Query("SELECT * FROM list_table ORDER BY listTitle ASC")
+    List<SupplyList> getAlphabetizedListNames();
 
-    @Query("SELECT * FROM item_table")
-    List<Item> getAll();
+    @Query("SELECT * FROM list_table")
+    List<SupplyList> getAll();
 
-    @Query("UPDATE item_table SET listTitle = :title WHERE mId = :id")
+    @Query("UPDATE list_table SET listTitle = :title WHERE mId = :id")
     void update(int id, String title);
 
-    @Query("SELECT listTitle FROM item_table WHERE mId = :id")
+    @Query("SELECT listTitle FROM list_table WHERE mId = :id")
     String getTitle(int id);
 
-    @Query("SELECT mId FROM item_table")
-    ArrayList<Integer> getIdAll();
+    @Query("SELECT mId FROM list_table")
+    List<Integer> getIdAll();
 }

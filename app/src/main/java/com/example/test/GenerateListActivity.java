@@ -39,10 +39,6 @@ import java.io.BufferedReader;
 import java.util.List;
 
   public class GenerateListActivity extends AppCompatActivity {
-    private  String mFileName;
-    File[] mFiles;
-    File mDirectory;
-    private String mSeparator = "@";
     private RecyclerView mRecyclerView;
     private EditText mListTitle;
     private  ArrayList<Item> mItems;
@@ -64,12 +60,8 @@ import java.util.List;
         String title = (String) intent.getSerializableExtra("title");
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
 
-        File directory;
-        directory = getFilesDir();
-        mFiles = directory.listFiles();
-
         if("".equals(title)){
-            mFileName = "list" + mFiles.length;
+            mListTitle.setText("Untitled");
             mItemData = new ItemData("Untitled", mItems);
             ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
@@ -79,7 +71,7 @@ import java.util.List;
             String text = ItemRoomDatabase.getDatabase(getApplicationContext())
                     .itemDao()
                     .getTitle();
-            mListTitle.setText(title);
+            mListTitle.setText(text);
         }
 
 
@@ -98,7 +90,6 @@ import java.util.List;
                     .itemDao()
                     .getTitle();
             mItemData = new ItemData(title, (ArrayList<Item>) items);
-            mListTitle.setText(title);
             mItems = mItemData.getItems();
         }
     }
@@ -106,7 +97,7 @@ import java.util.List;
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MyRecyclerViewAdapter(this, mItems, mFileName);
+        mAdapter = new MyRecyclerViewAdapter(this, mItems, mListTitle.getText().toString());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
