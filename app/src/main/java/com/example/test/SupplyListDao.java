@@ -18,7 +18,7 @@ public interface SupplyListDao {
     // allowing the insert of the same word multiple times by passing a
     // conflict resolution strategy
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(SupplyList list);
+    long insert(SupplyList list);
 
     @Query("DELETE FROM list_table")
     void deleteAll();

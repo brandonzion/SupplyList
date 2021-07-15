@@ -36,7 +36,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 
   public class GenerateListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -46,6 +48,8 @@ import java.util.List;
     private RecyclerView.LayoutManager mLayoutManager;
     CoordinatorLayout mCoordinatorLayout;
     private ItemData mItemData;
+    private SupplyList mSupplyList;
+    private Long mListId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,39 +63,49 @@ import java.util.List;
         Intent intent = getIntent();
         String title = (String) intent.getSerializableExtra("title");
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
-
+        //if title = nothing it means a new list needs to be created
         if("".equals(title)){
-            mListTitle.setText("Untitled");
-            mItemData = new ItemData("Untitled", mItems);
+            //create a supply list and save to database
+            String defaultTitle = "Untitled";
+            mListTitle.setText(defaultTitle);
+            Date currentTime = Calendar.getInstance().getTime();
+            Long longCurrentTime = DateConverter.fromDate(currentTime);
+            mSupplyList = new SupplyList(defaultTitle, longCurrentTime);
+            mListId = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                    .supplyListDao()
+                    .insert(mSupplyList);
+
+            //create items and save to database also link items to list
+            for(Item item: mItems){
+                item.setListId(mListId);
+            }
+            mItemData = new ItemData(defaultTitle, mItems); //TODO need to clean up Item Data
             ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
                 .insertAll(mItems);
+
         }
+        //if title is passed in, list exists and needs to be retrieved
         else{
-            String text = ItemRoomDatabase.getDatabase(getApplicationContext())
-                    .itemDao()
-                    .getTitle();
-            mListTitle.setText(text);
+            mListTitle.setText(title);
+            getList(title);
         }
 
 
-        createList();
+
         buildRecyclerView();
 
 
     }
-    public void createList() {
-        if(mItems.size() == 0){
-            List<Item> items = ItemRoomDatabase
-                    .getDatabase(getApplicationContext())
-                    .itemDao()
-                    .getAll();
-            String title = ItemRoomDatabase.getDatabase(getApplicationContext())
-                    .itemDao()
-                    .getTitle();
-            mItemData = new ItemData(title, (ArrayList<Item>) items);
-            mItems = mItemData.getItems();
-        }
+    public void getList(String title) {
+        //TODO replace title with list id
+        Long listId = Long.valueOf(1);
+        List<Item> items = ItemRoomDatabase
+                .getDatabase(getApplicationContext())
+                .itemDao()
+                .getAllByListId(listId);
+        mItemData = new ItemData(title, (ArrayList<Item>) items);//TODO clean up ItemData again
+        mItems = (ArrayList<Item>) items;
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -155,7 +169,7 @@ import java.util.List;
     }
 
     private void insertItem(int pos){
-        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", mListTitle.getText().toString());
+        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", mListId);
 
         mItems.add(pos, item);
         mItemData.setItems(mItems);

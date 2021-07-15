@@ -4,6 +4,8 @@ import android.os.Parcelable;
 import android.widget.Button;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -18,9 +20,9 @@ public class SupplyList {
     private String mListTitle;
 
     @ColumnInfo(name = "createdAt")
-    private int mCreatedAt;
+    private Long mCreatedAt;
 
-    public SupplyList(String listTitle, int createdAt){
+    public SupplyList(String listTitle, Long createdAt){
         mListTitle = listTitle;
         mCreatedAt = createdAt;
     }
@@ -31,7 +33,7 @@ public class SupplyList {
     public String getListTitle(){
         return mListTitle;
     }
-    public int getCreatedAt(){
+    public Long getCreatedAt(){
         return mCreatedAt;
     }
     public void setId(int id){
@@ -40,7 +42,7 @@ public class SupplyList {
     public void setListTitle(String listTitle){
         mListTitle = listTitle;
     }
-    public void setCreatedAt(int createdAt){
+    public void setCreatedAt(Long createdAt){
         mCreatedAt = createdAt;
     }
 }

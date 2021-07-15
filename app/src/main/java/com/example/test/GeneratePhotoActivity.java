@@ -94,7 +94,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                         }
                     }
                     if (itemSplitArray[0].matches(".*\\d.*")){
-                        items.add(new Item(Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], "Untitled"));
+                        items.add(new Item(Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], -1));
                     }
                 }
             }

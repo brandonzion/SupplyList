@@ -30,14 +30,11 @@ public interface ItemDao {
     @Query("SELECT * FROM item_table")
     List<Item> getAll();
 
+    @Query("SELECT * FROM item_table WHERE listId = :id")
+    List<Item> getAllByListId(Long id);
+
     @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc WHERE mId = :id")
     void update(int id, int qty, String name, String desc);
-
-    @Query("UPDATE item_table SET listTitle = :newListTitle WHERE listTitle = :ogListTitle")
-    void updateListTitle(String ogListTitle, String newListTitle);
-
-    @Query("SELECT listTitle FROM item_table")
-    String getTitle();
 
     @Insert
     void insertAll(ArrayList<Item> items);

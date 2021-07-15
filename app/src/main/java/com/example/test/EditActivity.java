@@ -78,9 +78,6 @@ public class EditActivity extends AppCompatActivity {
         mItem.setQty(newQty);
         String newDesc = mBrandView.getText().toString();
         mItem.setDesc(newDesc);
-        mTitle = ItemRoomDatabase.getDatabase(getApplicationContext())
-                .itemDao()
-                .getTitle();
 
         ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
