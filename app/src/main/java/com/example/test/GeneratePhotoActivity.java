@@ -100,7 +100,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(GeneratePhotoActivity.this, GenerateListActivity.class);
             intent.putExtra("items",items);
-            intent.putExtra("title", "");
+            intent.putExtra("listId", -1);
             GeneratePhotoActivity.this.startActivity(intent);
         }
         super.onActivityResult(requestCode,resultCode,data);

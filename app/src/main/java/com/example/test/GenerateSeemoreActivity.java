@@ -23,7 +23,7 @@ public class GenerateSeemoreActivity extends AppCompatActivity {
     public void displaySeemore(){
         Intent mIntent = getIntent();
         String mTitle = mIntent.getStringExtra("name");
-        String mBrand = mIntent.getStringExtra("brand");
+        String mDesc = mIntent.getStringExtra("desc");
 
         TextView mTitleView = findViewById(R.id.itemName);
         TextView mPriceView = findViewById(R.id.itemPrice);
@@ -32,7 +32,7 @@ public class GenerateSeemoreActivity extends AppCompatActivity {
         ImageView mImageView = findViewById(R.id.itemImage);
         mTitleView.setText(mTitle);
         mPriceView.setText("test");
-        mBrandView.setText(mBrand);
+        mBrandView.setText(mDesc);
         mLinkView.setText("http://www.google.com");
         mLinkView.setMovementMethod(LinkMovementMethod.getInstance());
     }

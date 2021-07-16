@@ -49,7 +49,7 @@ import java.util.Calendar;
     CoordinatorLayout mCoordinatorLayout;
     private ItemData mItemData;
     private SupplyList mSupplyList;
-    private Long mListId;
+    private int mListId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +61,20 @@ import java.util.Calendar;
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Intent intent = getIntent();
-        String title = (String) intent.getSerializableExtra("title");
+        int listId = (int) intent.getSerializableExtra("listId");
         mItems = (ArrayList<Item>) intent.getSerializableExtra("items");
         //if title = nothing it means a new list needs to be created
-        if("".equals(title)){
+        if(listId == -1){
             //create a supply list and save to database
             String defaultTitle = "Untitled";
             mListTitle.setText(defaultTitle);
             Date currentTime = Calendar.getInstance().getTime();
             Long longCurrentTime = DateConverter.fromDate(currentTime);
             mSupplyList = new SupplyList(defaultTitle, longCurrentTime);
-            mListId = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+            long longListId = SupplyListRoomDatabase.getDatabase(getApplicationContext())
                     .supplyListDao()
                     .insert(mSupplyList);
+            mListId = (int) longListId;
 
             //create items and save to database also link items to list
             for(Item item: mItems){
@@ -84,11 +85,18 @@ import java.util.Calendar;
                 .itemDao()
                 .insertAll(mItems);
 
+            mItems = (ArrayList<Item>) ItemRoomDatabase.getDatabase(getApplicationContext())
+                    .itemDao()
+                    .getAll();
         }
         //if title is passed in, list exists and needs to be retrieved
         else{
+            String title = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                    .supplyListDao()
+                    .getTitle(listId);
             mListTitle.setText(title);
-            getList(title);
+            mListId = listId;
+            getList(listId);
         }
 
 
@@ -97,21 +105,21 @@ import java.util.Calendar;
 
 
     }
-    public void getList(String title) {
+    public void getList(int id) {
         //TODO replace title with list id
-        Long listId = Long.valueOf(1);
+        Long listId = Long.valueOf(id);
         List<Item> items = ItemRoomDatabase
                 .getDatabase(getApplicationContext())
                 .itemDao()
                 .getAllByListId(listId);
-        mItemData = new ItemData(title, (ArrayList<Item>) items);//TODO clean up ItemData again
+        mItemData = new ItemData("title", (ArrayList<Item>) items);//TODO clean up ItemData again
         mItems = (ArrayList<Item>) items;
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MyRecyclerViewAdapter(this, mItems, mListTitle.getText().toString());
+        mAdapter = new MyRecyclerViewAdapter(this, mItems, mListId);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
@@ -123,14 +131,14 @@ import java.util.Calendar;
     }
 
 
-
+//TODO delete if not used
     @Override
     protected void onResume() {
         // call the superclass method first
         super.onResume();
         List<Item> items = ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
-                .getAll();
+                .getAllByListId((long)mListId);
         mItemData.setItems((ArrayList<Item>) items);
         mItems = (ArrayList<Item>) items;
     }
@@ -145,11 +153,15 @@ import java.util.Calendar;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.back:
+            SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                    .supplyListDao()
+                    .update(mListId, mListTitle.getText().toString());
             for(int i = 0; i<mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
                 ItemRoomDatabase.getDatabase(getApplicationContext())
                         .itemDao()
                         .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc());
+
             }
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);

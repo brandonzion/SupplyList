@@ -26,7 +26,7 @@ import static android.widget.TextView.*;
         implements ItemTouchHelperAdapter {
     private ArrayList<Item> mList;
     private ItemTouchHelper mTouchHelper;
-    private String mListTitle;
+    private int mListId;
     final int SHOW_MENU = 1;
     final int HIDE_MENU = 2;
     Context mContext;
@@ -109,10 +109,10 @@ import static android.widget.TextView.*;
             mDeleteButton = view.findViewById(R.id.deleteButton);
         }
     }
-    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list, String title) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Item> list, int listId) {
         mContext = context;
         mList = list;
-        mListTitle = title;
+        mListId = listId;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -141,10 +141,10 @@ import static android.widget.TextView.*;
                     Intent mIntent = new Intent(mContext, GenerateSeemoreActivity.class);
 
                     String name = item.getQty() + " " + item.getName();
-                    String brand = item.getDesc();
+                    String desc = item.getDesc();
 
                     mIntent.putExtra("name", name);
-                    mIntent.putExtra("brand", brand);
+                    mIntent.putExtra("desc", desc);
                     mContext.startActivity(mIntent);
                 }
             });
@@ -155,6 +155,10 @@ import static android.widget.TextView.*;
                 @Override
                 public void onClick(View view) {
                     removeItem(position);
+                    Item currentItem = mList.get(position);
+                    ItemRoomDatabase.getDatabase(mContext)
+                            .itemDao()
+                            .delete(currentItem.getId());
                 }
             });
 
@@ -165,7 +169,7 @@ import static android.widget.TextView.*;
                     Intent mIntent = new Intent(mContext, EditActivity.class);
                     mIntent.putExtra("list", mList);
                     mIntent.putExtra("position", position);
-                    mIntent.putExtra("title", mListTitle);
+                    mIntent.putExtra("listId", mListId);
 
                     mContext.startActivity(mIntent);
                 }

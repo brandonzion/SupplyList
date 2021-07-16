@@ -27,7 +27,7 @@ public class EditActivity extends AppCompatActivity {
     private ArrayList<Item> mItemList = new ArrayList<>();;
     private int mPosition;
     private Item mItem;
-    private String mListTitle;
+    private int mListId;
     private String mTitle;
     private String mSeparator = "@";
 
@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
 
         Intent mIntent = getIntent();
 
-        mListTitle = (String) mIntent.getSerializableExtra("title");
+        mListId = (int) mIntent.getSerializableExtra("listId");
         mItemList = (ArrayList<Item>) mIntent.getSerializableExtra("list");
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
@@ -74,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
 
         String newName = mNameView.getText().toString();
         mItem.setName(newName);
-        int newQty = Integer.parseInt(mQtyView.getText().toString());
+        int newQty = Integer.parseInt(String.valueOf(mQtyView.getText()));
         mItem.setQty(newQty);
         String newDesc = mBrandView.getText().toString();
         mItem.setDesc(newDesc);
@@ -98,9 +98,9 @@ public class EditActivity extends AppCompatActivity {
             Intent intent = new Intent(EditActivity.this, GenerateListActivity.class);
             ArrayList<Item> placeholderItems = new ArrayList<>();
             intent.putExtra("items", placeholderItems);
-            intent.putExtra("title", mListTitle);
+            intent.putExtra("listId", mListId);
             EditActivity.this.startActivity(intent);
-            return(true);
+             return(true);
         case R.id.about:
             //add the function to perform here
             return(true);

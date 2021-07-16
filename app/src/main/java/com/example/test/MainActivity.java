@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mListData;
-    private int mListAmount;
+    private int mNumberOfLists;
     private ItemData mItemData;
     private ArrayList<Integer> mListIds;
     private ConstraintSet mSet = new ConstraintSet();
@@ -42,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
         mListIds = (ArrayList<Integer>) SupplyListRoomDatabase.getDatabase(getApplicationContext())
                 .supplyListDao()
                 .getIdAll();
-        mListAmount = mListIds.size();
-        for(int i = 0; i < 6 && i < mListAmount; i++) {
+        mNumberOfLists = mListIds.size();
+        for(int i = 0; i < 6 && i < mNumberOfLists; i++) {
             Button button = new Button(this);
-
+            int listId = mListIds.get(i);
             // Open database and read title, and list
-           String textTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+            String textTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
                    .supplyListDao()
-                   .getTitle(i);
-           button.setText(textTitle);
+                   .getTitle(listId);
+            button.setText(textTitle);
 
             button.setId(i + 100);           // <-- Important
             layout.addView(button);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
                     intent.putExtra("items", placeholderList);
-                    intent.putExtra("title", textTitle);
+                    intent.putExtra("listId", listId);
                     MainActivity.this.startActivity(intent);
                 }
             });
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    //TODO delete if not used
     @Override
     protected void onResume() {
         super.onResume();
@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
     private void refresh(){
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
         mSet.clone(layout);
-        for(int i = 0; i < 6 && i < mListAmount; i++) {
+        for(int i = 0; i < 6 && i < mNumberOfLists; i++) {
+            int listId = mListIds.get(i);
             mSet.removeFromVerticalChain(i+100);
             Button button = new Button(this);
             // Open database and read title, and list
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
             registerForContextMenu(button);
 
             //On Short Click, open list
+            int finalI = i;
             button.setOnClickListener(new View.OnClickListener(){
                 ArrayList<Item> placeholderList = new ArrayList<>();
 
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
                     intent.putExtra("items", placeholderList);
-                    intent.putExtra("title", text);
+                    intent.putExtra("listId", listId);
                     MainActivity.this.startActivity(intent);
                 }
             });
