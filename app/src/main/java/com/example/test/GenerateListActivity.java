@@ -47,7 +47,6 @@ import java.util.Calendar;
     private MyRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     CoordinatorLayout mCoordinatorLayout;
-    private ItemData mItemData;
     private SupplyList mSupplyList;
     private int mListId;
 
@@ -80,14 +79,9 @@ import java.util.Calendar;
             for(Item item: mItems){
                 item.setListId(mListId);
             }
-            mItemData = new ItemData(defaultTitle, mItems); //TODO need to clean up Item Data
             ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
                 .insertAll(mItems);
-
-            mItems = (ArrayList<Item>) ItemRoomDatabase.getDatabase(getApplicationContext())
-                    .itemDao()
-                    .getAll();
         }
         //if title is passed in, list exists and needs to be retrieved
         else{
@@ -106,13 +100,11 @@ import java.util.Calendar;
 
     }
     public void getList(int id) {
-        //TODO replace title with list id
         Long listId = Long.valueOf(id);
         List<Item> items = ItemRoomDatabase
                 .getDatabase(getApplicationContext())
                 .itemDao()
                 .getAllByListId(listId);
-        mItemData = new ItemData("title", (ArrayList<Item>) items);//TODO clean up ItemData again
         mItems = (ArrayList<Item>) items;
     }
     public void buildRecyclerView() {
@@ -131,7 +123,6 @@ import java.util.Calendar;
     }
 
 
-//TODO delete if not used
     @Override
     protected void onResume() {
         // call the superclass method first
@@ -139,7 +130,6 @@ import java.util.Calendar;
         List<Item> items = ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
                 .getAllByListId((long)mListId);
-        mItemData.setItems((ArrayList<Item>) items);
         mItems = (ArrayList<Item>) items;
     }
 
@@ -184,12 +174,17 @@ import java.util.Calendar;
         Item item = new Item( 1, "Blank", "this item doesn't have a description yet", mListId);
 
         mItems.add(pos, item);
-        mItemData.setItems(mItems);
-        mAdapter.notifyDataSetChanged();
-        ItemRoomDatabase.getDatabase(getApplicationContext())
+        long longItemId = ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
                 .insert(item);
-        Toast.makeText(getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
+        int itemId = (int) longItemId;
+        item.setListId(mListId);
+        item.setId(itemId);
+        Intent listToEditIntent = new Intent(this, EditActivity.class);
+        listToEditIntent.putExtra("list", mItems);
+        listToEditIntent.putExtra("position", pos);
+        listToEditIntent.putExtra("listId", mListId);
+        this.startActivity(listToEditIntent);
     }
 
 

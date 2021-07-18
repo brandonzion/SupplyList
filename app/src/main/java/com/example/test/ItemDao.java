@@ -16,7 +16,7 @@ public interface ItemDao {
     // allowing the insert of the same word multiple times by passing a
     // conflict resolution strategy
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Item item);
+    long insert(Item item);
 
     @Query("DELETE FROM item_table")
     void deleteAll();
@@ -26,9 +26,6 @@ public interface ItemDao {
 
     @Query("SELECT * FROM item_table ORDER BY itemName ASC")
     List<Item> getAlphabetizedItemNames();
-
-    @Query("SELECT * FROM item_table")
-    List<Item> getAll();
 
     @Query("SELECT * FROM item_table WHERE listId = :id")
     List<Item> getAllByListId(Long id);

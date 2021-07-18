@@ -23,64 +23,19 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<String> mListData;
-    private int mNumberOfLists;
-    private ItemData mItemData;
     private ArrayList<Integer> mListIds;
     private ConstraintSet mSet = new ConstraintSet();
-    private int mListButtonWidth;
-    private int mListButtonHeight;
+    private int mListButtonWidth = 500;
+    private int mListButtonHeight = 550;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
-        mSet.clone(layout);
-        mListButtonWidth = 500;
-        mListButtonHeight = 550;
         mListIds = (ArrayList<Integer>) SupplyListRoomDatabase.getDatabase(getApplicationContext())
                 .supplyListDao()
                 .getIdAll();
-        mNumberOfLists = mListIds.size();
-        for(int i = 0; i < 6 && i < mNumberOfLists; i++) {
-            Button button = new Button(this);
-            int listId = mListIds.get(i);
-            // Open database and read title, and list
-            String textTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
-                   .supplyListDao()
-                   .getTitle(listId);
-            button.setText(textTitle);
-
-            button.setId(i + 100);           // <-- Important
-            layout.addView(button);
-            int row = i/2;
-            int col = i%2;
-            mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ mListButtonHeight) * row);
-            mSet.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + mListButtonWidth) * col);
-            mSet.constrainHeight(button.getId(), mListButtonHeight);
-            mSet.constrainWidth(button.getId(), mListButtonWidth);
-            mSet.applyTo(layout);
-
-            //On long click, open popup
-            registerForContextMenu(button);
-
-            //On Short Click, open list
-            button.setOnClickListener(new View.OnClickListener(){
-                ArrayList<Item> placeholderList = new ArrayList<>();
-
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
-                    intent.putExtra("items", placeholderList);
-                    intent.putExtra("listId", listId);
-                    MainActivity.this.startActivity(intent);
-                }
-            });
-
-        }
-
-
+        previewDisplay();
     }
 
     @Override
@@ -105,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    //TODO delete if not used
     @Override
     protected void onResume() {
         super.onResume();
@@ -115,44 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private void refresh(){
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
         mSet.clone(layout);
-        for(int i = 0; i < 6 && i < mNumberOfLists; i++) {
-            int listId = mListIds.get(i);
-            mSet.removeFromVerticalChain(i+100);
-            Button button = new Button(this);
-            // Open database and read title, and list
-            String text;
-            text = SupplyListRoomDatabase.getDatabase(getApplicationContext())
-                    .supplyListDao()
-                    .getTitle(i);
-            button.setText(text);
-
-            button.setId(i + 100);           // <-- Important
-            layout.addView(button);
-            int row = i/2;
-            int col = i%2;
-            mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24+ mListButtonHeight) * row);
-            mSet.connect(button.getId(),ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,32 + (24 + mListButtonWidth) * col);
-            mSet.constrainHeight(button.getId(), mListButtonHeight);
-            mSet.constrainWidth(button.getId(), mListButtonWidth);
-            mSet.applyTo(layout);
-
-            //On long click, open popup
-            registerForContextMenu(button);
-
-            //On Short Click, open list
-            int finalI = i;
-            button.setOnClickListener(new View.OnClickListener(){
-                ArrayList<Item> placeholderList = new ArrayList<>();
-
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
-                    intent.putExtra("items", placeholderList);
-                    intent.putExtra("listId", listId);
-                    MainActivity.this.startActivity(intent);
-                }
-            });
-        }
+        previewDisplay();
     }
 
     @Override
@@ -179,12 +96,65 @@ public class MainActivity extends AppCompatActivity {
         return(super.onOptionsItemSelected(item));
     }
 
+    private void previewDisplay(){
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
+        mSet.clone(layout);
+        for(int i = 0; i < 6 && i < mListIds.size(); i++) {
+            int buttonId = i+100;
+            //if button doesn't exist, create a new one
+            if(layout.findViewById(buttonId) == null) {
+                int listId = mListIds.get(i);
+                Button button = new Button(this);
+                // Open database and read title, and list
+                String text;
+                text = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                        .supplyListDao()
+                        .getTitle(listId);
+                button.setText(text);
+
+                button.setId(i + 100);           // <-- Important
+                layout.addView(button);
+                int row = i / 2;
+                int col = i % 2;
+                mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24 + mListButtonHeight) * row);
+                mSet.connect(button.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 32 + (24 + mListButtonWidth) * col);
+                mSet.constrainHeight(button.getId(), mListButtonHeight);
+                mSet.constrainWidth(button.getId(), mListButtonWidth);
+                mSet.applyTo(layout);
+
+                //On long click, open popup
+                registerForContextMenu(button);
+
+                //On Short Click, open list
+                int finalI = i;
+                button.setOnClickListener(new View.OnClickListener() {
+                    ArrayList<Item> placeholderList = new ArrayList<>();
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, GenerateListActivity.class);
+                        intent.putExtra("items", placeholderList);
+                        intent.putExtra("listId", listId);
+                        MainActivity.this.startActivity(intent);
+                    }
+                });
+            }
+            else{
+                //If button exists, replace the text
+                int listId = mListIds.get(i);
+                Button button = (Button) layout.getViewById(buttonId);
+                String text;
+                text = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                        .supplyListDao()
+                        .getTitle(listId);
+                button.setText(text);
+            }
+        }
+    }
 }
 
 
 
 //TODO share through email, upload to google drive, message
-//TODO change app to database
 //TODO add an ok button for GenerateListActivity and EditActivity
-//TODO connect data to database 
 
