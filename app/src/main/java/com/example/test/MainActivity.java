@@ -157,4 +157,12 @@ public class MainActivity extends AppCompatActivity {
 
 //TODO share through email, upload to google drive, message
 //TODO add an ok button for GenerateListActivity and EditActivity
+//TODO figure out upload file
+
+//UI todo
+//TODO app logo and name
+//TODO color
+//TODO Tutorial for first time users
+//TODO use consistent
+//TODO add action bar buttons to every activity
 
