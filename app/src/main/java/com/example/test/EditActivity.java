@@ -30,13 +30,13 @@ public class EditActivity extends AppCompatActivity {
     private int mListId;
     private String mTitle;
     private String mSeparator = "@";
-
+    private Button mSaveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
+        mSaveBtn = findViewById(R.id.saveBtn);
         Intent mIntent = getIntent();
 
         mListId = (int) mIntent.getSerializableExtra("listId");
@@ -44,6 +44,17 @@ public class EditActivity extends AppCompatActivity {
         mPosition = (int) mIntent.getSerializableExtra("position");
         mItem = mItemList.get(mPosition);
 
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save();
+                Intent intent = new Intent(EditActivity.this, GenerateListActivity.class);
+                ArrayList<Item> placeholderItems = new ArrayList<>();
+                intent.putExtra("items", placeholderItems);
+                intent.putExtra("listId", mListId);
+                EditActivity.this.startActivity(intent);
+            }
+        });
         displayEditView();
     }
 
@@ -84,6 +95,8 @@ public class EditActivity extends AppCompatActivity {
                 .update(mItem.getId(), mItem.getQty(), mItem.getName(), mItem.getDesc());
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

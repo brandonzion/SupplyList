@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -53,7 +54,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.share:
-                Toast.makeText(this, "Option 2 selected", Toast.LENGTH_SHORT).show();
+                List<Item> listItems = ItemRoomDatabase.getDatabase(getApplicationContext())
+                        .itemDao()
+                        .getAllByListId((long) (item.getItemId()-100));
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, item.getTitle());
+                for(Item currentItem: listItems){
+                    String stringQty = Integer.toString(currentItem.getQty());
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, stringQty);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getName());
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getDesc());
+                }
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share list to... ");
+                startActivity(shareIntent);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -112,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         .getTitle(listId);
                 button.setText(text);
 
-                button.setId(i + 100);           // <-- Important
+                button.setId(listId + 100);           // <-- Important
                 layout.addView(button);
                 int row = i / 2;
                 int col = i % 2;
@@ -156,13 +172,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 //TODO share through email, upload to google drive, message
-//TODO add an ok button for GenerateListActivity and EditActivity
 //TODO figure out upload file
-
+//TODO be able to delete preview and list
 //UI todo
 //TODO app logo and name
 //TODO color
 //TODO Tutorial for first time users
 //TODO use consistent
-//TODO add action bar buttons to every activity
 

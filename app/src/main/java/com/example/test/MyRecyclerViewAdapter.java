@@ -143,8 +143,9 @@ import static android.widget.TextView.*;
                     String name = item.getQty() + " " + item.getName();
                     String desc = item.getDesc();
 
-                    mIntent.putExtra("name", name);
-                    mIntent.putExtra("desc", desc);
+                    mIntent.putExtra("list", mList);
+                    mIntent.putExtra("position", position);
+                    mIntent.putExtra("listId", mListId);
                     mContext.startActivity(mIntent);
                 }
             });
