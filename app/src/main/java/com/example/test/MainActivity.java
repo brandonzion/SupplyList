@@ -1,4 +1,4 @@
-package com.example.test;
+  package com.example.test;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import java.io.BufferedReader;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintSet mSet = new ConstraintSet();
     private int mListButtonWidth = 500;
     private int mListButtonHeight = 550;
+    private final int SHARE_BTN = 1212330;
+    private final int DELETE_BTN = 9128123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +45,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.popupmenu, menu);
+        menu.add(v.getId(), DELETE_BTN, Menu.NONE, "Delete");
+        menu.add(v.getId(), SHARE_BTN, Menu.NONE, "Share");
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.delete:
+            case DELETE_BTN:
                 //TODO delete button and delete row from database
                 refresh();
                 Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.share:
+            case SHARE_BTN:
+                int listBtnId = item.getGroupId()-100; //use group id to identify which preview is long clicked
+                String textTBS; //TBS stands for "to be sent"
+                String currentListTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
+                        .supplyListDao()
+                        .getTitle(listBtnId);
                 List<Item> listItems = ItemRoomDatabase.getDatabase(getApplicationContext())
                         .itemDao()
-                        .getAllByListId((long) (item.getItemId()-100));
+                        .getAllByListId((long) (listBtnId));
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, item.getTitle());
+                textTBS = currentListTitle + "\n";
                 for(Item currentItem: listItems){
                     String stringQty = Integer.toString(currentItem.getQty());
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, stringQty);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getName());
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getDesc());
+                    textTBS += stringQty + " " + currentItem.getName() + " " + currentItem.getDesc() + "\n";
                 }
+                sendIntent.putExtra(Intent.EXTRA_TEXT, textTBS);
                 sendIntent.setType("text/plain");
 
                 Intent shareIntent = Intent.createChooser(sendIntent, "Share list to... ");
