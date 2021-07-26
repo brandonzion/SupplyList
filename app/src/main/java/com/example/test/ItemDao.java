@@ -35,4 +35,7 @@ public interface ItemDao {
 
     @Insert
     void insertAll(ArrayList<Item> items);
+
+    @Query("DELETE FROM item_table WHERE listId = :listId")
+    void deleteAllByListId(int listId);
 }
