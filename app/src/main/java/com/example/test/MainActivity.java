@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private int mListButtonHeight = 550;
     private final int SHARE_BTN = 1212330;
     private final int DELETE_BTN = 9128123;
+    private ConstraintLayout mConLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mConLayout = findViewById(R.id.ConstraintLayout);
         previewDisplay();
     }
 
@@ -50,15 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int listBtnId = item.getGroupId()-100; //use group id to identify which preview is long clicked
+        int listBtnId = item.getGroupId(); //use group id to identify which preview is long clicked
+        int listId = listBtnId - 100;
         switch (item.getItemId()) {
             case DELETE_BTN:
+                Button listBtn = mConLayout.findViewById(listBtnId);
                 ItemRoomDatabase.getDatabase(getApplicationContext())
                         .itemDao()
-                        .deleteAllByListId(listBtnId);
+                        .deleteAllByListId(listId);
                 SupplyListRoomDatabase.getDatabase(getApplicationContext())
                         .supplyListDao()
-                        .delete(listBtnId);
+                        .delete(listId);
+                mConLayout.removeView(listBtn);
                 refresh();
                 Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                 return true;
@@ -66,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 String textTBS; //TBS stands for "to be sent"
                 String currentListTitle = SupplyListRoomDatabase.getDatabase(getApplicationContext())
                         .supplyListDao()
-                        .getTitle(listBtnId);
+                        .getTitle(listId);
                 List<Item> listItems = ItemRoomDatabase.getDatabase(getApplicationContext())
                         .itemDao()
-                        .getAllByListId((long) (listBtnId));
+                        .getAllByListId((long) (listId));
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 textTBS = currentListTitle + "\n";
@@ -95,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refresh(){
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
-        mSet.clone(layout);
         previewDisplay();
     }
 
@@ -128,13 +130,12 @@ public class MainActivity extends AppCompatActivity {
         mListIds = (ArrayList<Integer>) SupplyListRoomDatabase.getDatabase(getApplicationContext())
                 .supplyListDao()
                 .getIdAll();
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
-        mSet.clone(layout);
+        mSet.clone(mConLayout);
         if(mListIds.size() != 0){
             for(int i = 0; i < 6 && i < mListIds.size(); i++) {
                 int buttonId = i+100;
                 //if button doesn't exist, create a new one
-                if(layout.findViewById(buttonId) == null) {
+                if(mConLayout.findViewById(buttonId) == null) {
                     int listId = mListIds.get(i);
                     Button button = new Button(this);
                     // Open database and read title, and list
@@ -145,14 +146,14 @@ public class MainActivity extends AppCompatActivity {
                     button.setText(text);
 
                     button.setId(listId + 100);           // <-- Important
-                    layout.addView(button);
+                    mConLayout.addView(button);
                     int row = i / 2;
                     int col = i % 2;
                     mSet.connect(button.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 24 + (24 + mListButtonHeight) * row);
                     mSet.connect(button.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 32 + (24 + mListButtonWidth) * col);
                     mSet.constrainHeight(button.getId(), mListButtonHeight);
                     mSet.constrainWidth(button.getId(), mListButtonWidth);
-                    mSet.applyTo(layout);
+                    mSet.applyTo(mConLayout);
 
                     //On long click, open popup
                     registerForContextMenu(button);
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     //If button exists, replace the text
                     int listId = mListIds.get(i);
-                    Button button = (Button) layout.getViewById(buttonId);
+                    Button button = (Button) mConLayout.getViewById(buttonId);
                     String text;
                     text = SupplyListRoomDatabase.getDatabase(getApplicationContext())
                             .supplyListDao()
@@ -184,19 +185,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else if(mListIds.size() == 0){
-            layout.removeAllViewsInLayout();
+            mConLayout.removeAllViewsInLayout();
+            int a = 9;
         }
     }
 }
 
 
 
-//TODO share through email, upload to google drive, message
 //TODO figure out upload file
-//TODO be able to delete preview and list
 //UI todo
 //TODO app logo and name
 //TODO color
 //TODO Tutorial for first time users
-//TODO use consistent
 
