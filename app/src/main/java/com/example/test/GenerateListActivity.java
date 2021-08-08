@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -186,8 +187,6 @@ import java.util.Calendar;
         listToEditIntent.putExtra("listId", mListId);
         this.startActivity(listToEditIntent);
     }
-
-
 }
 
 

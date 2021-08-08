@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -113,7 +114,8 @@ public class GeneratePhotoActivity extends AppCompatActivity {
         pickPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(GeneratePhotoActivity.this, UploadFileActivity.class);
+                GeneratePhotoActivity.this.startActivity(intent);
             }
         });
     }

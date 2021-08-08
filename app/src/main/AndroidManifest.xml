@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.test">
+    <!--//Adding Read External Storage Permission-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-feature android:name="android.hardware.type.watch" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -13,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
-        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".UploadFileActivity"></activity>
+        <activity android:name=".EditActivity" />
         <activity android:name=".GenerateSeemoreActivity" />
         <activity android:name=".GenerateListActivity" />
         <activity android:name=".TextTest" />

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private int mListButtonHeight = 550;
     private final int SHARE_BTN = 1212330;
     private final int DELETE_BTN = 9128123;
+    private int tutNumb = 0;
     private ConstraintLayout mConLayout;
 
     @Override
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mConLayout = findViewById(R.id.ConstraintLayout);
         previewDisplay();
+        if(tutNumb == 0){
+            displayTutorial();
+        }
     }
 
     @Override
@@ -188,6 +192,10 @@ public class MainActivity extends AppCompatActivity {
             mConLayout.removeAllViewsInLayout();
             int a = 9;
         }
+    }
+
+    private void displayTutorial(){
+
     }
 }
 
