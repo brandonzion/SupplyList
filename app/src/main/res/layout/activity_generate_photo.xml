@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/theme_gray"
     tools:context=".GeneratePhotoActivity">
 
     <Button
@@ -13,7 +14,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="32dp"
+        android:background="@color/theme_yellow"
         android:text="Take Photo"
+        android:textColor="@color/theme_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,12 +24,14 @@
 
     <Button
         android:id="@+id/pickPhotoButton"
+        android:background="@color/theme_yellow"
         android:layout_width="0dp"
         android:layout_height="115dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="224dp"
         android:text="Upload File"
+        android:textColor="@color/theme_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
