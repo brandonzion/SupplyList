@@ -19,7 +19,6 @@
         android:theme="@style/Theme.Test">
         <activity android:name=".UploadFileActivity"></activity>
         <activity android:name=".EditActivity" />
-        <activity android:name=".GenerateSeemoreActivity" />
         <activity android:name=".GenerateListActivity" />
         <activity android:name=".TextTest" />
         <activity android:name=".GeneratePhotoActivity">

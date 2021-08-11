@@ -14,7 +14,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="32dp"
-        android:background="@color/theme_yellow"
+        android:backgroundTint="@color/theme_yellow"
         android:text="Take Photo"
         android:textColor="@color/theme_gray"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
 
     <Button
         android:id="@+id/pickPhotoButton"
-        android:background="@color/theme_yellow"
+        android:backgroundTint="@color/theme_yellow"
         android:layout_width="0dp"
         android:layout_height="115dp"
         android:layout_marginStart="32dp"

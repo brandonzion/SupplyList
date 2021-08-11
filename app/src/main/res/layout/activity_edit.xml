@@ -82,7 +82,7 @@
 
     <Button
         android:id="@+id/saveBtn"
-        android:background="@color/theme_yellow"
+        android:backgroundTint="@color/theme_yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"

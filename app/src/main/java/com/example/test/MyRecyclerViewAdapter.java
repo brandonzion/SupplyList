@@ -42,7 +42,6 @@ import static android.widget.TextView.*;
         public TextView mQtyView;
         public TextView mNameView;
         public TextView mDescView;
-        public Button mSeemoreBtn;
         GestureDetector mGestureDetector;
 
         View rowView;
@@ -52,7 +51,6 @@ import static android.widget.TextView.*;
             mQtyView = itemView.findViewById(R.id.qtyView);
             mNameView = itemView.findViewById(R.id.nameView);
             mDescView = itemView.findViewById(R.id.descView);
-            mSeemoreBtn = itemView.findViewById(R.id.seeMoreBtn);
             rowView = itemView;
 
             mGestureDetector = new GestureDetector(itemView.getContext(), this);
@@ -134,21 +132,6 @@ import static android.widget.TextView.*;
             ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
             ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
             ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
-            ((MyRecyclerViewHolder)holder).mSeemoreBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Item item = mList.get(position);
-                    Intent mIntent = new Intent(mContext, GenerateSeemoreActivity.class);
-
-                    String name = item.getQty() + " " + item.getName();
-                    String desc = item.getDesc();
-
-                    mIntent.putExtra("list", mList);
-                    mIntent.putExtra("position", position);
-                    mIntent.putExtra("listId", mListId);
-                    mContext.startActivity(mIntent);
-                }
-            });
         }
 
         if(holder instanceof MenuViewHolder){

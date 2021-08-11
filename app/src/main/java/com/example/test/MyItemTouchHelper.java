@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyItemTouchHelper extends ItemTouchHelper.Callback {
-
-    private final ColorDrawable background = new ColorDrawable(Color.WHITE);
+    private final int intBackgroundColor = Color.parseColor("#2D2D2D");
+    private final ColorDrawable background = new ColorDrawable(intBackgroundColor);
 
     private final ItemTouchHelperAdapter mAdapter;
 

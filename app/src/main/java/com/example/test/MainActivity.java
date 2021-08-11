@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menumain, menu);
+        getMenuInflater().inflate(R.menu.menubaronlyadd, menu);
         return true;
     }
     @Override
@@ -131,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void previewDisplay(){
+        int themeYellowValue = Color.parseColor("#FFAC00");
+        int themeGrayValue = Color.parseColor("#2D2D2D");
         mListIds = (ArrayList<Integer>) SupplyListRoomDatabase.getDatabase(getApplicationContext())
                 .supplyListDao()
                 .getIdAll();
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
                             .supplyListDao()
                             .getTitle(listId);
                     button.setText(text);
+                    button.setBackgroundColor(themeYellowValue);
+                    button.setTextColor(themeGrayValue);
 
                     button.setId(listId + 100);           // <-- Important
                     mConLayout.addView(button);
@@ -201,9 +206,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//TODO figure out upload file
 //UI todo
-//TODO app logo and name
-//TODO color
-//TODO Tutorial for first time users
+//TODO app name
+//TODO Tutorial for first time user
+//TODO find the popular font for buttons and for text
+//TODO make the preview text bigger
+//TODO add menu bar to generate photo activity
+//TODO change the app logo and name when figured out
+//TODO change menu bar text and button color
+//TODO fix upload file back button
+//TODO figure out whether camera buttons are customizable
+//TODO have photo to text add amazon links and prices as well
+//TODO when checked, change whole item to light gray
+//TODO (optional) move to bottom of recycler view when checked
+//TODO save check box status to database with other item attributes
+//TODO figure out menu border settings
+//TODO make menu same size as item
+//TODO make menu have same margin as item
 
