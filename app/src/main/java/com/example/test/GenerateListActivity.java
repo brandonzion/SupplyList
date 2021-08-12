@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -107,6 +108,11 @@ import java.util.Calendar;
                 .itemDao()
                 .getAllByListId(listId);
         mItems = (ArrayList<Item>) items;
+        /*for(Item item: mItems){
+            View itemView = findViewById(item.getId());
+            CheckBox checkBox = itemView.findViewById(R.id.checkbox);
+            checkBox.setChecked(item.getIsChecked());
+        }*/
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -132,6 +138,11 @@ import java.util.Calendar;
                 .itemDao()
                 .getAllByListId((long)mListId);
         mItems = (ArrayList<Item>) items;
+        /*for(Item item: mItems){
+            View itemView = findViewById(item.getId());
+            CheckBox checkBox = itemView.findViewById(R.id.checkbox);
+            checkBox.setChecked(item.getIsChecked());
+        }*/
     }
 
 
@@ -147,12 +158,22 @@ import java.util.Calendar;
             SupplyListRoomDatabase.getDatabase(getApplicationContext())
                     .supplyListDao()
                     .update(mListId, mListTitle.getText().toString());
-            for(int i = 0; i<mItems.size(); i++) {
+            /*for(int i = 0; i<mItems.size(); i++) {
                 Item currentItem = mItems.get(i);
+                View itemView = findViewById(currentItem.getId());
                 ItemRoomDatabase.getDatabase(getApplicationContext())
                         .itemDao()
                         .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc());
 
+            }*/
+            int childCount = mRecyclerView.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final MyRecyclerViewAdapter.MyRecyclerViewHolder holder = (MyRecyclerViewAdapter.MyRecyclerViewHolder) mRecyclerView.getChildViewHolder(mRecyclerView.getChildAt(i));
+                CheckBox checkbox = holder.itemView.findViewById(R.id.checkboxView);
+                Item currentItem = mItems.get(holder.mItemDataId - 1);
+                ItemRoomDatabase.getDatabase(getApplicationContext())
+                        .itemDao()
+                        .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc(), checkbox.isChecked());
             }
             Intent intent = new Intent(GenerateListActivity.this, MainActivity.class);
             GenerateListActivity.this.startActivity(intent);
@@ -172,7 +193,7 @@ import java.util.Calendar;
     }
 
     private void insertItem(int pos){
-        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", mListId);
+        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", false, mListId);
 
         mItems.add(pos, item);
         long longItemId = ItemRoomDatabase.getDatabase(getApplicationContext())

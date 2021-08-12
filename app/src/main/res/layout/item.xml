@@ -43,7 +43,7 @@
             android:textSize="15sp" />
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/checkboxView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"

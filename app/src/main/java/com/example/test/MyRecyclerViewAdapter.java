@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,8 @@ import static android.widget.TextView.*;
         public TextView mQtyView;
         public TextView mNameView;
         public TextView mDescView;
+        public CheckBox mCheckboxView;
+        public int mItemDataId; //link the holder view id to the data id
         GestureDetector mGestureDetector;
 
         View rowView;
@@ -51,6 +54,8 @@ import static android.widget.TextView.*;
             mQtyView = itemView.findViewById(R.id.qtyView);
             mNameView = itemView.findViewById(R.id.nameView);
             mDescView = itemView.findViewById(R.id.descView);
+            mCheckboxView = itemView.findViewById(R.id.checkboxView);
+            mItemDataId = -1;
             rowView = itemView;
 
             mGestureDetector = new GestureDetector(itemView.getContext(), this);
@@ -132,6 +137,8 @@ import static android.widget.TextView.*;
             ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
             ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
             ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
+            ((MyRecyclerViewHolder)holder).mCheckboxView.setChecked(currentItem.getIsChecked());
+            ((MyRecyclerViewHolder)holder).mItemDataId = currentItem.getId();
         }
 
         if(holder instanceof MenuViewHolder){

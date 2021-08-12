@@ -30,8 +30,8 @@ public interface ItemDao {
     @Query("SELECT * FROM item_table WHERE listId = :id")
     List<Item> getAllByListId(Long id);
 
-    @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc WHERE mId = :id")
-    void update(int id, int qty, String name, String desc);
+    @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc, ItemisChecked = :isChecked WHERE mId = :id")
+    void update(int id, int qty, String name, String desc, boolean isChecked);
 
     @Insert
     void insertAll(ArrayList<Item> items);

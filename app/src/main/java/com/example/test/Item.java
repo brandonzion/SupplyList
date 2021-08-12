@@ -26,14 +26,17 @@ public class Item implements Serializable{
     @ColumnInfo(name = "itemDesc")
     private String mDesc;
 
+    @ColumnInfo(name = "ItemisChecked")
+    private boolean mIsChecked;
 
     Boolean mShowMenu;
-    public Item(int qty, String name, String desc, long listId) {
+    public Item(int qty, String name, String desc, boolean isChecked, long listId) {
         mListId = listId;
         mQty = qty;
         mName = name;
         mDesc = desc;
         mShowMenu = false;
+        mIsChecked = isChecked;
     }
 
     public void setShowMenu(boolean ifShow){
@@ -53,10 +56,12 @@ public class Item implements Serializable{
     public String getDesc() {
         return mDesc;
     }
+    public boolean getIsChecked(){ return mIsChecked; }
     public long getListId(){return mListId;}
     public void setQty(int numb){mQty = numb;};
     public void setName(String text){mName = text;}
     public void setDesc(String text){mDesc = text;}
+    public void setIsChecked(boolean isChecked){ mIsChecked = isChecked; }
     public void setListId(long id){mListId = id;}
 
 
