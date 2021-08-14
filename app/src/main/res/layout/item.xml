@@ -8,7 +8,7 @@
     app:cardCornerRadius="4dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/theme_yellow"
+
         android:layout_height="48dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp">
@@ -17,6 +17,7 @@
             android:id="@+id/qtyView"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:fontFamily="sans-serif"
             android:padding="2dp"
             android:text="qty"
             android:textAlignment="center"

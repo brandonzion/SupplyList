@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +28,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int themeGray = Color.parseColor("#2D2D2D");
+    public static final int themeYellow = Color.parseColor("#FFAC00");
+    public static final int themeWhite = Color.parseColor("#FFFFFF");
+    public static final int themeBlack = Color.parseColor("#000000");
     private ArrayList<Integer> mListIds;
     private ConstraintSet mSet = new ConstraintSet();
     private int mListButtonWidth = 500;
@@ -153,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     button.setText(text);
                     button.setBackgroundColor(themeYellowValue);
                     button.setTextColor(themeGrayValue);
+                    button.setTextSize(20);
 
                     button.setId(listId + 100);           // <-- Important
                     mConLayout.addView(button);
@@ -209,18 +215,12 @@ public class MainActivity extends AppCompatActivity {
 //UI todo
 //TODO app name
 //TODO Tutorial for first time user
-//TODO find the popular font for buttons and for text
-//TODO make the preview text bigger
-//TODO add menu bar to generate photo activity
-//TODO change the app logo and name when figured out
-//TODO change menu bar text and button color
-//TODO fix upload file back button
-//TODO figure out whether camera buttons are customizable
 //TODO have photo to text add amazon links and prices as well
-//TODO when checked, change whole item to light gray
 //TODO (optional) move to bottom of recycler view when checked
-//TODO save check box status to database with other item attributes
-//TODO figure out menu border settings
-//TODO make menu same size as item
-//TODO make menu have same margin as item
+//TODO save position of itemView when moved
+//TODO figure out swipe menu border settings
+//TODO make swipe menu same size as item
+//TODO make swipe menu have same margin as item
+//TODO change bug where after item is moved, the background is still light gray
+//TODO add a border to item
 

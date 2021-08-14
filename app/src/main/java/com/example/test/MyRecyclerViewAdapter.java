@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.GestureDetector;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import static android.widget.TextView.*;
+import static com.example.test.MainActivity.themeBlack;
+import static com.example.test.MainActivity.themeGray;
+import static com.example.test.MainActivity.themeWhite;
+import static com.example.test.MainActivity.themeYellow;
 
   public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
@@ -39,7 +45,6 @@ import static android.widget.TextView.*;
             View.OnTouchListener,
             GestureDetector.OnGestureListener
     {
-
         public TextView mQtyView;
         public TextView mNameView;
         public TextView mDescView;
@@ -133,12 +138,45 @@ import static android.widget.TextView.*;
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof MyRecyclerViewHolder){
+            //get item from list of data and set the views to data
             Item currentItem = mList.get(position);
-            ((MyRecyclerViewHolder)holder).mQtyView.setText(String.valueOf(currentItem.getQty()));
-            ((MyRecyclerViewHolder)holder).mNameView.setText(currentItem.getName());
-            ((MyRecyclerViewHolder)holder).mDescView.setText(currentItem.getDesc());
-            ((MyRecyclerViewHolder)holder).mCheckboxView.setChecked(currentItem.getIsChecked());
-            ((MyRecyclerViewHolder)holder).mItemDataId = currentItem.getId();
+            MyRecyclerViewHolder myHolder = ((MyRecyclerViewHolder) holder);
+            myHolder.itemView.setBackgroundColor(themeYellow);
+            myHolder.mQtyView.setText(String.valueOf(currentItem.getQty()));
+            myHolder.mNameView.setText(currentItem.getName());
+            myHolder.mDescView.setText(currentItem.getDesc());
+            myHolder.mItemDataId = currentItem.getId();
+
+            if(currentItem.getIsChecked() == true){
+                myHolder.itemView.setBackgroundColor(themeGray);
+                myHolder.mQtyView.setTextColor(themeWhite);
+            }
+            else{
+                myHolder.itemView.setBackgroundColor(themeYellow);
+                myHolder.mQtyView.setTextColor(themeBlack);
+            }
+            //delete old listener
+            myHolder.mCheckboxView.setOnCheckedChangeListener(null);
+
+            //set checkbox status
+            myHolder.mCheckboxView.setChecked(currentItem.getIsChecked());
+
+            //add new listener
+            myHolder.mCheckboxView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //set your object's last status
+                    currentItem.setIsChecked(isChecked);
+                    if(isChecked == true){
+                        myHolder.itemView.setBackgroundColor(themeGray);
+                        myHolder.mQtyView.setTextColor(themeWhite);
+                    }
+                    else{
+                        myHolder.itemView.setBackgroundColor(themeYellow);
+                        myHolder.mQtyView.setTextColor(themeBlack);
+                    }
+                }
+            });
         }
 
         if(holder instanceof MenuViewHolder){

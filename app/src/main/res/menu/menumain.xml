@@ -17,7 +17,7 @@
         android:title="back"
         android:iconTint="@color/theme_yellow"/>
     <item
-        android:id="@+id/about" android:icon="@android:drawable/ic_dialog_info" app:showAsAction="never" android:title="about">
+        android:id="@+id/about" app:showAsAction="never" android:title="about">
     </item>
     <item
         android:id="@+id/exit"  app:showAsAction="never" android:title="exit">
