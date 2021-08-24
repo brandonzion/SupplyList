@@ -117,11 +117,6 @@ import static com.example.test.MainActivity.themeYellow;
                 .itemDao()
                 .getAllByListId(listId);
         mItems = (ArrayList<Item>) items;
-        /*for(Item item: mItems){
-            View itemView = findViewById(item.getId());
-            CheckBox checkBox = itemView.findViewById(R.id.checkbox);
-            checkBox.setChecked(item.getIsChecked());
-        }*/
     }
     public void buildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -184,7 +179,7 @@ import static com.example.test.MainActivity.themeYellow;
                     if(currentItem.getId() == holder.mItemDataId){
                         ItemRoomDatabase.getDatabase(getApplicationContext())
                                 .itemDao()
-                                .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc(), checkbox.isChecked());
+                                .update(currentItem.getId(), currentItem.getQty(), currentItem.getName(), currentItem.getDesc(), checkbox.isChecked(), i);
                         break;
                     }
                 }
@@ -209,7 +204,7 @@ import static com.example.test.MainActivity.themeYellow;
     }
 
     private void insertItem(int pos){
-        Item item = new Item( 1, "Blank", "this item doesn't have a description yet", false, mListId);
+        Item item = new Item(mItems.size(), 1, "Blank", "this item doesn't have a description yet", false, mListId);
 
         mItems.add(pos, item);
         long longItemId = ItemRoomDatabase.getDatabase(getApplicationContext())

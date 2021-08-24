@@ -86,7 +86,7 @@ public class EditActivity extends AppCompatActivity {
 
         ItemRoomDatabase.getDatabase(getApplicationContext())
                 .itemDao()
-                .update(mItem.getId(), mItem.getQty(), mItem.getName(), mItem.getDesc(), mItem.getIsChecked());
+                .update(mItem.getId(), mItem.getQty(), mItem.getName(), mItem.getDesc(), mItem.getIsChecked(), mItem.getOrder());
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 

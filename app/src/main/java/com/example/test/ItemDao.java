@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.Update;
 
 import java.sql.Array;
@@ -30,8 +31,8 @@ public interface ItemDao {
     @Query("SELECT * FROM item_table WHERE listId = :id")
     List<Item> getAllByListId(Long id);
 
-    @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc, ItemisChecked = :isChecked WHERE mId = :id")
-    void update(int id, int qty, String name, String desc, boolean isChecked);
+    @Query("UPDATE item_table SET itemQty = :qty, itemName = :name, itemDesc = :desc, itemisChecked = :isChecked, itemOrder = :order WHERE mId = :id")
+    void update(int id, int qty, String name, String desc, boolean isChecked, int order);
 
     @Insert
     void insertAll(ArrayList<Item> items);

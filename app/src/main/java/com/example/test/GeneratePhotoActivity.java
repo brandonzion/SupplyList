@@ -103,7 +103,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                         }
                     }
                     if (itemSplitArray[0].matches(".*\\d.*")){
-                        items.add(new Item(Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], false,-1));
+                        items.add(new Item(items.size(), Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], false,-1));
                     }
                 }
             }
@@ -146,7 +146,7 @@ public class GeneratePhotoActivity extends AppCompatActivity {
                         }
                     }
                     if (itemSplitArray[0].matches(".*\\d.*")){
-                        items.add(new Item(Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], false, -1));
+                        items.add(new Item(items.size(), Integer.parseInt(itemSplitArray[0]), confirmedKeyword, textArray[i], false, -1));
                     }
                 }
             }
