@@ -1,4 +1,5 @@
   package com.example.test;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -6,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.GestureDetector;
@@ -144,19 +147,20 @@ import static com.example.test.MainActivity.themeYellow;
               Item currentItem = findItemFromPos(position);
 
               MyRecyclerViewHolder myHolder = ((MyRecyclerViewHolder) holder);
-              myHolder.itemView.setBackgroundColor(themeYellow);
               myHolder.mQtyView.setText(String.valueOf(currentItem.getQty()));
               myHolder.mNameView.setText(currentItem.getName());
               myHolder.mDescView.setText(currentItem.getDesc());
               myHolder.mItemDataId = currentItem.getId();
 
+
+
               if (currentItem.getIsChecked() == true) {
-                  myHolder.itemView.setBackgroundColor(themeGray);
-                  myHolder.mQtyView.setTextColor(themeWhite);
+                  myHolder.itemView.setBackgroundColor(Color.parseColor("#606467"));
               } else {
                   myHolder.itemView.setBackgroundColor(themeYellow);
-                  myHolder.mQtyView.setTextColor(themeBlack);
               }
+
+
               //delete old listener
               myHolder.mCheckboxView.setOnCheckedChangeListener(null);
 
@@ -170,11 +174,9 @@ import static com.example.test.MainActivity.themeYellow;
                       //set your object's last status
                       currentItem.setIsChecked(isChecked);
                       if (isChecked == true) {
-                          myHolder.itemView.setBackgroundColor(themeGray);
-                          myHolder.mQtyView.setTextColor(themeWhite);
+                          myHolder.itemView.setBackgroundColor(Color.parseColor("#606467"));
                       } else {
                           myHolder.itemView.setBackgroundColor(themeYellow);
-                          myHolder.mQtyView.setTextColor(themeBlack);
                       }
                   }
               });

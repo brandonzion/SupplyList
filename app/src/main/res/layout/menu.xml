@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
+    android:layout_height="48dp"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/theme_gray"
@@ -35,10 +35,10 @@
 
     <LinearLayout
         android:id="@+id/editButton"
-        android:layout_width="100dp"
+        android:layout_width="75dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#BEBEBE"
+        android:background="@drawable/swipemenuborder"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/deleteButton"
@@ -48,25 +48,16 @@
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="1dp"
-            android:src="@drawable/mdi_edit" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            android:layout_marginTop="-5dp"
-            android:text="Edit"
-            android:textColor="#ffffff" />
+            android:src="@drawable/mdi_edit"
+            app:tint="#FF9900" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/deleteButton"
-        android:layout_width="100dp"
+        android:layout_width="75dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#FF0000"
+        android:background="@drawable/swipemenuborder"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,14 +67,8 @@
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_marginTop="1dp"
-            android:src="@drawable/mdi_delete" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-5dp"
-            android:text="Delete"
-            android:textColor="#ffffff" />
+            android:src="@drawable/mdi_delete"
+            app:tint="#F60000"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

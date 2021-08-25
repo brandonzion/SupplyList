@@ -216,10 +216,6 @@ public class MainActivity extends AppCompatActivity {
 //TODO app name
 //TODO Tutorial for first time user
 //TODO have photo to text add amazon links and prices as well
-//TODO (optional) move to bottom of recycler view when checked
-//TODO figure out swipe menu border settings
-//TODO make swipe menu same size as item
-//TODO make swipe menu have same margin as item
-//TODO change bug where after item is moved, the background turns white
-//TODO add a border to item
+//TODO can't exit while in swipe menu
+//TODO have order saved and set background when item is moved
 

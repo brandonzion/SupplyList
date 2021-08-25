@@ -8,10 +8,7 @@
     app:cardCornerRadius="4dp">
     <RelativeLayout
         android:layout_width="match_parent"
-
-        android:layout_height="48dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp">
+        android:layout_height="48dp">
 
         <TextView
             android:id="@+id/qtyView"
@@ -41,6 +38,7 @@
             android:layout_below="@+id/nameView"
             android:layout_marginStart="8dp"
             android:text="Line 2"
+            android:textColor="@android:color/black"
             android:textSize="15sp" />
 
         <CheckBox

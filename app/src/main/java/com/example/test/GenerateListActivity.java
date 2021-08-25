@@ -3,6 +3,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -119,10 +120,12 @@ import static com.example.test.MainActivity.themeYellow;
         mItems = (ArrayList<Item>) items;
     }
     public void buildRecyclerView() {
+        Decoration decoration = new Decoration(10);
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new MyRecyclerViewAdapter(this, mItems, mListId);
+        mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mAdapter);
@@ -239,6 +242,26 @@ import static com.example.test.MainActivity.themeYellow;
             });
         }
     }
+
+      public class Decoration extends RecyclerView.ItemDecoration {
+          private int space;
+
+          public Decoration(int space) {
+              this.space = space;
+          }
+
+          @Override
+          public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                     RecyclerView.State state) {
+              outRect.left = space;
+              outRect.right = space;
+              outRect.bottom = space;
+
+              if (parent.getChildAdapterPosition(view) == 0) {
+                  outRect.top = space;
+              }
+          }
+      }
 }
 
 
