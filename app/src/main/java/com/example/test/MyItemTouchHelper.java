@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.test.MainActivity.themeYellow;
+
 public class MyItemTouchHelper extends ItemTouchHelper.Callback {
     private final int intBackgroundColor = Color.parseColor("#2D2D2D");
     private final ColorDrawable background = new ColorDrawable(intBackgroundColor);
@@ -44,9 +46,18 @@ public class MyItemTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
-        viewHolder.itemView.setBackgroundColor(
-                ContextCompat.getColor(viewHolder.itemView.getContext(), R.color.white)
-        );
+        MyRecyclerViewAdapter.MyRecyclerViewHolder myHolder = (MyRecyclerViewAdapter.MyRecyclerViewHolder) viewHolder;
+        if(myHolder.mCheckboxView.isChecked() == true){
+            viewHolder.itemView.setBackgroundColor(Color.parseColor("#606467"));
+        }
+
+        else{
+            viewHolder.itemView.setBackgroundColor(
+                    ContextCompat.getColor(viewHolder.itemView.getContext(), R.color.theme_yellow)
+            );
+        }
+
+
     }
 
     @Override
