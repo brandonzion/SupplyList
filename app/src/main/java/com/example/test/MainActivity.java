@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -32,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     public static final int themeYellow = Color.parseColor("#FFAC00");
     public static final int themeWhite = Color.parseColor("#FFFFFF");
     public static final int themeBlack = Color.parseColor("#000000");
+    public static final String MyPrefs = "MyPrefs";
     private ArrayList<Integer> mListIds;
     private ConstraintSet mSet = new ConstraintSet();
     private int mListButtonWidth = 500;
     private int mListButtonHeight = 550;
     private final int SHARE_BTN = 1212330;
     private final int DELETE_BTN = 9128123;
-    private int tutNumb = 0;
     private ConstraintLayout mConLayout;
 
     @Override
@@ -47,8 +49,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mConLayout = findViewById(R.id.ConstraintLayout);
         previewDisplay();
-        if(tutNumb == 0){
-            displayTutorial();
+        SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
+
+        if (!sp.getBoolean("first", false)) {
+            getSupportActionBar().hide();
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("first", true);
+            editor.commit();
+            //Intent intent = new Intent(MainActivity.this, SampleCirclesDefault.class); //call your ViewPager class
+            //startActivity(intent);
         }
     }
 
@@ -215,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
 //UI todo
 //TODO app name
 //TODO Tutorial for first time user
-//TODO have photo to text add amazon links and prices as well
 //TODO can't exit while in swipe menu
 //TODO have order saved and set background when item is moved
 
