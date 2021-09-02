@@ -47,17 +47,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mConLayout = findViewById(R.id.ConstraintLayout);
         previewDisplay();
         SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
 
         if (!sp.getBoolean("first", false)) {
-            getSupportActionBar().hide();
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("first", true);
             editor.commit();
-            //Intent intent = new Intent(MainActivity.this, SampleCirclesDefault.class); //call your ViewPager class
-            //startActivity(intent);
+            Intent firstTimeGuideIntent = new Intent(MainActivity.this, OnboardingActivity.class);
+            startActivity(firstTimeGuideIntent);
         }
     }
 
@@ -138,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
         case R.id.about:
             //add the function to perform here
             return(true);
-        case R.id.exit:
-            //add the function to perform here
+        case R.id.help:
+            Intent firstTimeGuideIntent = new Intent(MainActivity.this, OnboardingActivity.class);
+            startActivity(firstTimeGuideIntent);
             return(true);
     }
         return(super.onOptionsItemSelected(item));

@@ -62,4 +62,10 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+    // ViewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    // new material design
+    implementation "com.google.android.material:material:1.2.0-alpha02"
 }

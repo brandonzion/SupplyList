@@ -111,8 +111,9 @@ public class EditActivity extends AppCompatActivity {
         case R.id.about:
             //add the function to perform here
             return(true);
-        case R.id.exit:
-            //add the function to perform here
+        case R.id.help:
+            Intent firstTimeGuideIntent = new Intent(EditActivity.this, OnboardingActivity.class);
+            startActivity(firstTimeGuideIntent);
             return(true);
     }
         return(super.onOptionsItemSelected(item));

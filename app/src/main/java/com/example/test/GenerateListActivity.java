@@ -199,8 +199,9 @@ import static com.example.test.MainActivity.themeYellow;
         case R.id.about:
             //add the function to perform here
             return(true);
-        case R.id.exit:
-            //add the function to perform here
+        case R.id.help:
+            Intent firstTimeGuideIntent = new Intent(GenerateListActivity.this, OnboardingActivity.class);
+            startActivity(firstTimeGuideIntent);
             return(true);
     }
         return(super.onOptionsItemSelected(item));

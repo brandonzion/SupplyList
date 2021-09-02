@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/back"
-        android:icon="@drawable/ic_back"
+        android:icon="@drawable/back"
         app:showAsAction="always|withText"
         android:title="back"
         android:iconTint="@color/theme_yellow"/>
@@ -17,8 +17,8 @@
         android:title="about">
     </item>
     <item
-        android:id="@+id/exit"
+        android:id="@+id/help"
         app:showAsAction="never"
-        android:title="exit">
+        android:title="help">
     </item>
 </menu>
